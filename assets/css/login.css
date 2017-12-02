@@ -1,0 +1,123 @@
+/*!
+ * Start Bootstrap - Full (http://startbootstrap.com/template-overviews/full)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-full/blob/master/LICENSE)
+ */
+
+ body {
+ 	 	-webkit-background-size: cover;
+ 	-moz-background-size: cover;
+ 	background-size: cover;
+ 	-o-background-size: cover;
+ 	
+ }
+ form
+ {
+ 	width: 250px;
+ 	margin: 0 auto;
+ }
+ p.form-title
+{
+    font-family: 'Open Sans' , sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    color: #004CBD;
+    margin-top: 5%;
+    text-transform: uppercase;
+    
+}
+
+
+
+ form.login input[type="email"], form.login input[type="password"]
+ {
+ 	width: 100%;
+ 	margin: 0;
+ 	padding: 5px 10px;
+ 	background: 0;
+ 	border: 0;
+ 	border-bottom: 1px solid #FFFFFF;
+ 	outline: 0;
+ 	font-style: italic;
+ 	font-size: 14px;
+ 	font-weight: 400;
+ 	letter-spacing: 1px;
+ 	margin-bottom: 5px;
+ 	color: #004CBD;
+ 	outline: 0;
+ }
+
+ form.login input[type="submit"]
+ {
+ 	width: 100%;
+ 	font-size: 14px;
+ 	text-transform: uppercase;
+ 	font-weight: 500;
+ 	margin-top: 16px;
+ 	outline: 0;
+ 	cursor: pointer;
+ 	letter-spacing: 1px;
+ }
+
+ form.login input[type="submit"]:hover
+ {
+ 	transition: background-color 0.5s ease;
+ }
+
+ form.login .remember-forgot
+ {
+ 	float: left;
+ 	width: 100%;
+ 	margin: 10px 0 0 0;
+ }
+ form.login .forgot-pass-content
+ {
+ 	min-height: 20px;
+ 	margin-top: 10px;
+ 	margin-bottom: 10px;
+ }
+ form.login label, form.login a
+ {
+ 	font-size: 16px;
+ 	font-weight: 400;
+ 	color: #00A2C5;
+ }
+
+ form.login a
+ {
+ 	transition: color 0.5s ease;
+ }
+
+ form.login a:hover
+ {
+ 	color: #2ecc71;
+ }
+
+ .vertical-offset-100 {
+ 	padding-top: 100px;
+ }
+ .img-responsive {
+ 	display: block;
+ 	max-width: 100%;
+ 	height: auto;
+ 	margin: auto;
+ }
+ .panel {
+ 	margin-bottom: 25px;
+ 	width:450px;
+ 	height:100%;
+ 	padding:20px;
+ 	background-color: rgba(255, 255, 255, 0.75);
+ 	border: 1px solid black;
+ 	border-radius: 4px;
+ 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+ 	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+ 	margin-left: auto;
+ 	margin-right: auto;
+ 	display: block;
+ 	border-radius:25px; 
+ 	max-width: 100%;
+
+ }
+ 
