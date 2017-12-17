@@ -2,6 +2,7 @@
 session_start();
 include "../connect.php";
 $q =  "SELECT * FROM positionuser";
+ $resulti = mysqli_query($link,$q);
  $result = mysqli_query($link,$q);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
@@ -111,7 +112,7 @@ if($_SESSION['ses_Id'] ==""){
 							<p>วันที่รับ</p>
 						</div>
 						<div class="5u 12u$(small)">
-							<input type="date" name="documentDate" id="documentDate" min="2017-01-01" max="2017-12-31" value="2017-01-01">
+							<input type="date" name="documentDate" id="documentDate" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" value="<?php echo "$year-$m-$date";?>">
 						</div>
 						<div class="5u$ 12u$(small)">
 							
@@ -124,11 +125,15 @@ if($_SESSION['ses_Id'] ==""){
 							<div class="select-wrapper">
 								<select name="statusName" id="statusName">
 									<option value="">- เลือก -</option>
-									<option value="ู้อำนวยการหลักสูตรนิติศาสตรมหาบัณฑิต">ผู้อำนวยการหลักสูตรนิติศาสตรมหาบัณฑิต</option>
-									<option value="ู้อำนวยการหลักสูตรศึกษาศาสตรสดุษฏีบัณฑิต">ผู้อำนวยการหลักสูตรศึกษาศาสตรสดุษฏีบัณฑิต</option>
-									<option value="ผู้อำนวยการหลักสูตรบริหารธุรกิจดุษฏีบัณฑิต">ผู้อำนวยการหลักสูตรบริหารธุรกิจดุษฏีบัณฑิต</option>
-									<option value="ผู้อำนวยการหลักสูตรหลักสูตรวิทยาศาสตรมหาบัญฑิต สาขาวิชาการบริหารการบิน">ผู้อำนวยการหลักสูตรหลักสูตรวิทยาศาสตรมหาบัญฑิต สาขาวิชาการบริหารการบิน</option>
-									<option value="ู้อำนวยการหลักสูตรบริหารธุรกิจมหาบัณฑิต">ผู้อำนวยการหลักสูตรบริหารธุรกิจมหาบัณฑิต</option>
+									<?php
+										while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
+											?>
+										<option value="<?php echo $row['positionName'];?>"><?php echo $row['positionName'];?></option>
+										<?php } 
+								mysqli_free_result($resulti);
+								mysqli_close($link);
+
+								?>
 								</select>
 							</div>
 						</div>
@@ -159,7 +164,7 @@ if($_SESSION['ses_Id'] ==""){
 							<p>ไฟล์เอกสาร</p>
 						</div>
 						<div class="10u 12u$(xsmall)">
-							<input type="file" name="attachment" style="color:red;" id="attachment">
+							<input type="file" name="attachment" style="color:red;" id="attachment" accept="image/*">
 						</div>
 						<div class="6u 12u$(small)">
 							<input type="radio" id="categoryDocumentIn" name="categoryDocument" value="เอกสารภายใน">
@@ -222,7 +227,8 @@ if($_SESSION['ses_Id'] ==""){
 	<script src="../assets/js/skel.min.js"></script>
 	<script src="../assets/js/util.js"></script>
 	<script src="../assets/js/main.js"></script>
-
+	
+	
 
 </body>
 </html>

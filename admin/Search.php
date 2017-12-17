@@ -51,7 +51,7 @@ if($_SESSION['ses_Id'] ==""){
 			$sql .= " OR fromName LIKE '%" . $_POST['fromName'] . "%'";
 			$field .= " จาก" . $_POST['fromName'];
 		}
-		if( @$_POST['documentDateStart'] ){
+		if( $_POST['documentDateStart'] ){
 			if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
 				if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 					$sql .= " OR documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." OR "."'". $_POST['documentDateEnd'] . "'";
@@ -89,7 +89,7 @@ if($_SESSION['ses_Id'] ==""){
 
 				}
 			}else{
-				$sql .= " OR documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateStart'] . "'";
+				$sql .= " and documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateStart'] . "'";
 				$field .= " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 			}
 		}

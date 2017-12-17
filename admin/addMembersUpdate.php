@@ -81,7 +81,7 @@ if($_SESSION['ses_Id'] ==""){
 								<p for="exampleInputEmail1">E-mail</p>
 							</div>
 							<div class="10u 12u$(xsmall)">
-								<input type="email" class="form-control" name="email" id="email" value="<?php echo $rowpro['email']; ?>" type="text">
+								<input type="email" class="form-control" name="email" id="email" value="<?php echo $rowpro['email']; ?>" type="text" >
 							</div>
 							<div class="2u 12u$(xsmall)">
 								<p for="exampleInputPassword1">รหัสผ่าน</p>

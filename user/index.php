@@ -5,8 +5,8 @@ include "../pagination.php";
 $num=$_SESSION['ses_position'];
 $q = "SELECT document.*,access.* FROM document LEFT JOIN access 
 	  on document.documentId = access.documentId 
-	  WHERE access.positionId = '$num' ";
-$result = page_query($link,$q,4);
+	  WHERE access.positionId = '$num' and document.documentTime  BETWEEN curdate() AND curdate() ORDER BY documentTime DESC";
+$result = page_query($link,$q,5);
 
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
@@ -103,7 +103,7 @@ if($_SESSION['ses_Id'] ==""){
 										<td><p><?php echo $row['documentName'];?></p></td>
 										<td><?php echo $row['documentTime'];?></td>
 										<td><?php echo $row['fromName']; ?></td>
-										<td><?php echo $row['statusName'];?></td>
+										<td><?php echo $row['action'];?></td>
 									</tr>
 									<?php
 								} 
@@ -114,7 +114,7 @@ if($_SESSION['ses_Id'] ==""){
 						</table>
 
 						<?php
-						page_echo_pagenums(4,true,false);
+						page_echo_pagenums(5,true,false);
 						mysqli_free_result($result);
 						mysqli_close($link);
 						?>

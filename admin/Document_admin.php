@@ -89,14 +89,14 @@ if($_SESSION['ses_Id'] ==""){
 							<p>ค้นหาจากวันที่</p>
 						</div>
 						<div class="5u 12u$(small)">
-							<input type="checkbox" id="documentDateStart" name="documentDateStart" checked>
+							<input type="checkbox" id="documentDateStart" name="documentDateStart" >
 							<label for="documentDateStart">วันที่</label>
-							<input type="date" name="documentDateStart" id="documentDateStart" min="2017-01-01" max="2017-12-31" >
+							<input type="date" name="documentDateStart" id="documentDateStart" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" >
 						</div>
 						<div class="5u$ 12u$(small)">
 							<input type="checkbox" id="documentDateEnd" name="documentDateEnd" >
 							<label for="documentDateEnd">ถึงวันที่</label>
-							<input type="date" name="documentDateEnd" id="documentDateEnd" min="2016-01-01" max="2017-12-31" >
+							<input type="date" name="documentDateEnd" id="documentDateEnd" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" >
 						</div>
 
 						<div class="6u 12u$(small)">
@@ -104,7 +104,7 @@ if($_SESSION['ses_Id'] ==""){
 							<label for="categoryDocumentIn">เอกสารภายใน</label>
 						</div>
 						<div class="6u 12u$(small)">
-							<input type="radio" id="categoryDocumentOut" name="categoryDocument" value="เอกสารภายนอก"checked>
+							<input type="radio" id="categoryDocumentOut" name="categoryDocument" value="เอกสารภายนอก">
 							<label for="categoryDocumentOut">เอกสารภายนอก</label>
 						</div>
 						<div class="12u$">

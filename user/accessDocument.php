@@ -79,7 +79,7 @@ if($_SESSION['ses_Id'] ==""){
 									<header class="major">
 										<span class="date"><?php echo "$date $month $year";?></span>
 									</header>
-									<form method="post" action="../accessDocument.php?userId=<?php echo $_SESSION['ses_userId'] ?>" class="alt">
+									<form method="post" action="../accessDocument.php?userId=<?php echo $_SESSION['ses_userId'] ?>" enctype="multipart/form-data" class="alt">
 										<div class="row uniform">
 											<div class="4u 12u$(xsmall)">
 												<p for="documentId">เลขที่เอกสาร</p>
@@ -117,7 +117,9 @@ if($_SESSION['ses_Id'] ==""){
 												<p for="attachment">ไฟล์</p>
 											</div>
 											<div class="8u 12u$(xsmall)">
-												<span name="attachment" id="attachment" ><?php echo $rowpro['attachment']; ?></span> 
+											   <a href="../view.php?id=<?php echo $rowpro['documentId'] ?>" target="_blank"><img src="../images/view.png" title="เปิด"
+												width="32" height="32"></a>
+												<a href="../download.php?id=<?php echo $rowpro['documentId'] ?>" target="iframe"><img src="../images/arw-down.png" title="ดาวน์โหลด" width="32" height="32"></a>
 											</div>
 
 											<div class="3u 12u$(small)"><b>ความคิดเห็น </b></div>
@@ -191,9 +193,11 @@ if($_SESSION['ses_Id'] ==""){
 												
 												
 													<div class="6u$ 12u$(small) ">
-														<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[<?php echo $row['positionId'];?>]" value="<?php echo $row['positionId']; ?>">
-														<label for="positionId[<?php echo $row['positionId'];?>]"><?php echo $row['positionName'];?></label>
-													</div> 
+													<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[]" value="<?php echo $row['positionId'];?>">
+
+													<label for="positionId[<?php echo $row['positionId'];?>]"><?php echo $row['positionName'];?></label>
+												</div> 
+
 														
 													<?php } 
 													mysqli_free_result($resulti);

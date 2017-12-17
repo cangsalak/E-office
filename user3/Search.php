@@ -163,7 +163,7 @@ if($_SESSION['ses_Id'] ==""){
 		}
 
 
-	$sql .= " ORDER BY documentId.documentId DESC";
+	$sql .= " ORDER BY document.documentId DESC";
 	$result = page_query($link, $sql, 5);
 	$first = page_start_row();
 	$last = page_stop_row();

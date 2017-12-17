@@ -48,7 +48,6 @@ if($_SESSION['ses_Id'] ==""){
 			<header id="header">
 				<a href="index.php" class="logo">Home</a>
 			</header>
-
 			<!-- Nav -->
 			<nav id="nav">
 				<ul class="links">
@@ -101,7 +100,7 @@ if($_SESSION['ses_Id'] ==""){
 										<td><?php echo $row['documentName'];?></td>
 										<td><?php echo $row['documentTime'];?></td>
 										<td><?php echo $row['fromName']; ?></td>
-										<td><?php echo $row['statusName'];?></td>
+										<td><?php echo $row['action'];?></td>
 									</tr>
 									<?php
 								} 
@@ -144,34 +143,7 @@ if($_SESSION['ses_Id'] ==""){
 				<script src="../assets/js/skel.min.js"></script>
 				<script src="../assets/js/util.js"></script>
 				<script src="../assets/js/main.js"></script>
-				<script>
-					$('a.doc-id').click(function(e) {
-						e.preventDefault();
-
-						var docId = $(this).text();
-						if (docId && !isNaN(docId)) {
-							$.ajax({
-								url: '../documents.php?docid=' + docId,
-								method: 'GET',
-								error: function() {
-									$('#info').html('<p>An error has occurred</p>');
-								},
-								success: function(data) {
-									var doc = JSON.parse(data);
-									if (doc) {
-										$('#documentId').text(doc.documentId);
-										$('#Doc_Date').text(doc.documentTime);
-										$('#To').text(doc.statusName);
-										$('#From').text(doc.fromName);
-										$('#Title').text(doc.documentName);
-										$('#portfolioModal1').modal('show');
-									}
-								}
-							});
-						}
-					});
-				</script>
-
+				
 			</body>
 			</html>
 			<?php  }

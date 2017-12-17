@@ -11,21 +11,16 @@ $password = $_POST['password'];
 $userName = $_POST['userName'];
 $positionId = $_POST['positionId'];
 
-if($category==1){
-	$categoryId = 1;
-}else{
-	if($positionId <= 10){
-		$categoryId = 2;
-	}else if($positionId <= 15){
-		$categoryId = 3;
-	}else if($positionId <= 20){
-		$categoryId = 4;
-	}else if($positionId <= 40){
-		$categoryId = 5;
-	}else if($positionId <= 60){
-		$categoryId = 6;
-	}
+if($positionId == 2){
+	$categoryId = 2;
+}else if($positionId <= 14){
+	$categoryId = 3;
+}else if($positionId <= 32){
+	$categoryId = 4;
+}else if($positionId >= 33){
+	$categoryId = 5;
 }
+
 
 $up = " UPDATE the_user SET email='$email', password='$password', userName='$userName', categoryId='$categoryId', positionId='$positionId' WHERE userId = '$userId' ";
 

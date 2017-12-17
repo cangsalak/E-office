@@ -83,6 +83,7 @@ if($_SESSION['ses_Id'] ==""){
 							<tbody>
 								<?php
 								while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+									
 									?>
 									<tr>
 										<td>
@@ -92,6 +93,7 @@ if($_SESSION['ses_Id'] ==""){
 							<td><a href="positionUpdate.php?positionId=<?php echo $row['positionId'] ?>"><button class="btn btn-primary">แก้ไข</button></a>
 										</td>
 									</tr>
+
 									<?php } 
 
 
@@ -110,7 +112,7 @@ if($_SESSION['ses_Id'] ==""){
 						</P>
 
 							<?php
-							
+							page_echo_pagenums(5,true,false);
 							mysqli_close($link);
 							?>
 						</div>

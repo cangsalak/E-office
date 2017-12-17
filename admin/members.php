@@ -51,7 +51,7 @@ if($_SESSION['ses_Id'] ==""){
 				<li ><a href="../admin/index.php">Home</a></li>
 				<li ><a href="../admin/Document_admin.php">Document search</a></li>
 				<li ><a href="../admin/AddDocument.php">Add the document</a></li>
-				<li class="active"><a href="../members.php">members</a></li>
+				<li class="active"><a href="members.php">members</a></li>
 				<li ><a href="../admin/report.php">report</a></li>
 			</ul>
 			<ul class="icons">
