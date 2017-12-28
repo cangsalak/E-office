@@ -19,6 +19,8 @@ if($positionId == 2){
 	$categoryId = 4;
 }else if($positionId >= 33){
 	$categoryId = 5;
+}else{
+	$categoryId = 6;
 }
 
 
