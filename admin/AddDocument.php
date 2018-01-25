@@ -112,7 +112,8 @@ if($_SESSION['ses_Id'] ==""){
 							<p>วันที่รับ</p>
 						</div>
 						<div class="5u 12u$(small)">
-							<input type="date" name="documentDate" id="documentDate" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" value="<?php echo "$year-$m-$date";?>">
+							<input type="date" name="documentDate" id="documentDate" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" 
+							value="<?php echo "$year-$m-$date";?>">
 						</div>
 						<div class="5u$ 12u$(small)">
 							

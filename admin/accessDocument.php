@@ -178,6 +178,8 @@ if($_SESSION['ses_Id'] ==""){
 										<div class="5u 12u$(small)">
 											<textarea name="accessAaction" id="Message" placeholder="Enter your message" rows="2"></textarea>
 										</div>
+
+										
 										<div class="4u 12u$(small)"><b>เอกสารเพิ่มเติม  </b></div>
 										<div class="8u 12u$(small)">
 											<input type="file" name="accessAttachment" style="color:red;" id="accessAttachment" accept="image/*">

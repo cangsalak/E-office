@@ -4,7 +4,9 @@ include "../connect.php";
 $q =  "SELECT * FROM the_user";
 $result = mysqli_query($link,$q);
 $sq =  "SELECT * FROM positionuser";
- $resulti = mysqli_query($link,$sq);
+$resulti = mysqli_query($link,$sq);
+$resulti1 = mysqli_query($link,$sq);
+$resulti2 = mysqli_query($link,$sq);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
@@ -186,7 +188,46 @@ if($_SESSION['ses_Id'] ==""){
 
 																</select>
 															</div>
-														</div>
+													</div>
+													<div class="2u 12u$(xsmall)">
+														<p>ตำแหน่งที่ 2</p>
+													</div>
+													<div class="10u 12u$(xsmall)">
+														<div class="select-wrapper">
+															<select name="positionId2" id="positionId2">
+																<option value="">- เลือก -</option>
+																<?php
+																while ($row = mysqli_fetch_array($resulti1,MYSQLI_ASSOC)) {
+																	?>
+																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
+																	<?php } 
+																	mysqli_free_result($result);
+																	mysqli_close($link);
+
+																	?>
+
+																</select>
+															</div>
+													</div>
+													<div class="2u 12u$(xsmall)">
+														<p>ตำแหน่งที่ 3</p>
+													</div>
+													<div class="10u 12u$(xsmall)">
+														<div class="select-wrapper">
+															<select name="positionId3" id="positionId3">
+																<option value="">- เลือก -</option>
+																<?php
+																while ($row = mysqli_fetch_array($resulti2,MYSQLI_ASSOC)) {
+																	?>
+																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
+																	<?php } 
+																	mysqli_free_result($result);
+																	mysqli_close($link);
+
+																	?>
+																</select>
+															</div>
+													</div>
 
 														<div class="12u$">
 															<ul class="actions">
