@@ -4,18 +4,20 @@ include "../connect.php";
 
 
 $userId = $_GET['userId'];
-$qpro = "SELECT * FROM the_user WHERE userId='$userId'";
+$qpro =  "SELECT * FROM the_user where userId='$userId'";
 $respro = mysqli_query($link,$qpro);
 $rowpro = mysqli_fetch_array($respro,MYSQLI_ASSOC);
 $q =  "SELECT * FROM positionuser";
  $result = mysqli_query($link,$q);
  $result2 = mysqli_query($link,$q);
  $result3 = mysqli_query($link,$q);
+  
+ 
 
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -31,16 +33,7 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading"  id="page-top">
 
 	<!-- Wrapper -->
@@ -89,7 +82,7 @@ if($_SESSION['ses_Id'] ==""){
 								<p for="exampleInputPassword1">รหัสผ่าน</p>
 							</div>
 							<div class="10u 12u$(xsmall)">
-								<input type="password" class="form-control" name="password" id="password" value="<?php echo $rowpro['password']; ?>" type="password">
+								<input type="password" class="form-control" name="password" id="password" value="">
 							</div>
 							<div class="2u 12u$(xsmall)">
 								<p>ชื่อ</p>
@@ -105,68 +98,89 @@ if($_SESSION['ses_Id'] ==""){
 							</div>
 							<div class="10u 12u$(xsmall)">
 								<div class="select-wrapper">
+									
 									<select name="positionId" id="positionId">
-										<option value="">- เลือก -</option>
+										<?php	$Id=$rowpro['positionId'];  
+												    $p =  "SELECT * FROM positionuser WHERE positionId=$Id"; 
+												    $pi = mysqli_query($link,$p);
+													$rp = mysqli_fetch_array($pi,MYSQLI_ASSOC);?>
+										<option value="<?php echo $Id; ?>"><?php echo $rp['positionName']; ?></option>
 										<?php
 										while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
 											?>
 											<?php
-										if ($row['positionId']>1) {
+										if (($row['positionId']>1)&&$row['positionId']!=$Id) {
 											?>
 										<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 										<?php } ?>
 										<?php } 
-								mysqli_free_result($result);
-								mysqli_close($link);
+									mysqli_free_result($result);
+									
 
 								?>
 									</select>
 								</div>
-							</div><div class="2u 12u$(xsmall)">
+							</div>
+
+							<?php  if(!empty($rowpro['positionId2'])) {?>
+							<div class="2u 12u$(xsmall)">
 								<p>ตำแหน่งที่ 2</p>
 							</div>
 							<div class="10u 12u$(xsmall)">
 								<div class="select-wrapper">
 									<select name="positionId2" id="positionId2">
-										<option value="">- เลือก -</option>
+										<?php	 $Id2=$rowpro['positionId2'];  
+												    $p2 =  "SELECT * FROM positionuser WHERE positionId=$Id2"; 
+												    $pi2 = mysqli_query($link,$p2);
+													$rp2 = mysqli_fetch_array($pi2,MYSQLI_ASSOC);?>
+										<option value="<?php echo $Id2; ?>"><?php echo $rp2['positionName']; ?></option>
+
 										<?php
 										while ($row = mysqli_fetch_array($result2,MYSQLI_ASSOC)) {
 											?>
 											<?php
-										if ($row['positionId']>1) {
+										if (($row['positionId']>1)&&$row['positionId']!=$Id)  {
 											?>
 										<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 										<?php } ?>
 										<?php } 
 								mysqli_free_result($result);
-								mysqli_close($link);
 
 								?>
 									</select>
 								</div>
-							</div><div class="2u 12u$(xsmall)">
+							</div>
+
+							<?php }  if(!empty($rowpro['positionId3'])) {?>
+
+							<div class="2u 12u$(xsmall)">
 								<p>ตำแหน่งที่ 3</p>
 							</div>
 							<div class="10u 12u$(xsmall)">
 								<div class="select-wrapper">
 									<select name="positionId3" id="positionId3">
-										<option value="">- เลือก -</option>
+										<?php	$Id3=$rowpro['positionId3'];  
+												    $p3 =  "SELECT * FROM positionuser WHERE positionId=$Id3"; 
+												    $pi3 = mysqli_query($link,$p3);
+													$rp3 = mysqli_fetch_array($pi3,MYSQLI_ASSOC);?>
+										<option value="<?php echo $rowpro['positionId3']; ?>"><?php echo $rp3['positionName']; ?></option>
 										<?php
 										while ($row = mysqli_fetch_array($result3,MYSQLI_ASSOC)) {
 											?>
 											<?php
-										if ($row['positionId']>1) {
+										if (($row['positionId']>1)&&$row['positionId']!=$Id)  {
 											?>
 										<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 										<?php } ?>
 										<?php } 
 								mysqli_free_result($result);
-								mysqli_close($link);
+								
 
 								?>
 									</select>
 								</div>
 							</div>
+							<?php } mysqli_close($link);?>
 							<?php } ?>
 							<div class="12u$">
 								<ul class="actions">

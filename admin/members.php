@@ -10,7 +10,7 @@ $resulti2 = mysqli_query($link,$sq);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -26,16 +26,7 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading"  id="page-top">
 
 	<!-- Wrapper -->
@@ -201,7 +192,7 @@ if($_SESSION['ses_Id'] ==""){
 																	?>
 																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 																	<?php } 
-																	mysqli_free_result($result);
+																	mysqli_free_result($result1);
 																	mysqli_close($link);
 
 																	?>
@@ -221,7 +212,7 @@ if($_SESSION['ses_Id'] ==""){
 																	?>
 																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 																	<?php } 
-																	mysqli_free_result($result);
+																	mysqli_free_result($result2);
 																	mysqli_close($link);
 
 																	?>

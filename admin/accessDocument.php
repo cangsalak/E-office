@@ -7,6 +7,9 @@ $qpro= "SELECT * FROM document WHERE documentId = '$documentId' ORDER BY documen
 $respro = mysqli_query($link,$qpro);
 $rowpro = mysqli_fetch_array($respro,MYSQLI_ASSOC);
 
+$qpr= "SELECT * FROM access WHERE documentId = '$documentId' ";
+$respr = mysqli_query($link,$qpr);
+
 $sq =  "SELECT * FROM positionuser";
 $resulti = mysqli_query($link,$sq);
 
@@ -15,7 +18,7 @@ $resulti = mysqli_query($link,$sq);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -23,17 +26,7 @@ if($_SESSION['ses_Id'] ==""){
 	?>
 	<!DOCTYPE HTML>
 	<html>
-	<head>
-		<title>Massively by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../assets/css/main.css" />
-		<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-		
-	</head>
+	<?php include "../headAdmin.php"; ?>
 	<body class="is-loading">
 
 		<!-- Wrapper -->
@@ -77,112 +70,156 @@ if($_SESSION['ses_Id'] ==""){
 
 									<div class="row uniform">
 										<div class="4u 12u$(xsmall)">
-											<p for="documentId">เลขที่เอกสาร</p>
+											<b for="documentId">เลขที่เอกสาร</b>
 										</div>
 										<div class="8u 12u$(xsmall)">
 											<input type="text" name="documentId" id="documentId" class="form-control" value="<?php echo $rowpro['documentId']; ?>" readonly>
 										</div>
 										<div class="4u 12u$(xsmall)">
-											<p for="documentTime">วันที่รับเอกสาร</p>
+											<b for="documentTime">วันที่รับเอกสาร</b>
 										</div>
 										<div class="8u 12u$(xsmall)">
 											<input type="text" name="documentTime" id="documentTime" class="form-control" value="<?php echo $rowpro['documentTime']; ?>" readonly>
 										</div>
 										<div class="4u 12u$(xsmall)">
-											<p for="statusName">ถึง</p>
+											<b for="statusName">ถึง</b>
 										</div>
 										<div class="8u 12u$(xsmall)">
 											<input type="text" name="statusName" id="statusName" class="form-control" value="<?php echo $rowpro['statusName']; ?>" readonly>
 										</div>
 										<div class="4u 12u$(xsmall)">
-											<p for="fromName">จาก</p>
+											<b for="fromName">จาก</b>
 										</div>
 										<div class="8u 12u$(xsmall)">
 											<input type="text" name="fromName" id="fromName" class="form-control" value="<?php echo $rowpro['fromName']; ?>" readonly>
 										</div>
 										<div class="4u 12u$(xsmall)">
-											<p for="documentName">เรื่อง</p>
+											<b for="documentName">เรื่อง</b>
 										</div>
 										<div class="8u 12u$(xsmall)">
 											<input type="text" name="documentName" id="documentName" class="form-control" value="<?php echo $rowpro['documentName']; ?>" readonly>
 										</div>
 										<div class="4u 12u$(xsmall)">
-											<p for="attachment">ไฟล์</p>
+											<b for="attachment">ไฟล์</b>
 										</div>
+
+										<?php if($rowpro['attachment']) { ?>
+
 										<div class="8u 12u$(xsmall)">
-											
-											<a href="../viewAdmin.php?id=<?php echo $rowpro['documentId'] ?>" target="_blank"><img src="../images/view.png" title="เปิด"
+											<a href="viewAdmin.php?id=<?php echo $rowpro['documentId'] ?>" target="_blank"><img src="../images/view.png" title="เปิด"
 											width="32" height="32"></a>
 											<a href="../download.php?id=<?php echo $rowpro['documentId'] ?>" target="iframe"><img src="../images/arw-down.png" title="ดาวน์โหลด" width="32" height="32"></a>
-											
-											
-											
+																																
+										</div>
+										<?php }else {?>
+										<div class="8u 12u$(xsmall)">
+												 <img src="../images/view.png" title="ไม่มีไฟล์" width="38" height="38" >
+												<img src="../images/arw-down.png" title="ไม่มีไฟล์ดาวน์โหลด" width="38" height="38">
+											</div>
+										<?php } ?>	
 
-										</div>
+
 										<div class="3u 12u$(small)"><b>ความคิดเห็น </b></div>
-										<div class="4u 12u$(small)">
-											<input name="accessAaction" type="radio" value="เพื่อโปรดทราบ" id="Attention" checked>
-											<label for="Attention">เพื่อโปรดทราบ</label>
-										</div>
-										<div class="5u 12u$(small)">
-											<input type="radio" id="Ask_Opinion" name="accessAaction" value="ขอความเห็น">
-											<label for="Ask_Opinion">ขอความเห็น</label>
-										</div>
-										<div class="3u 12u$(small)"></div>
-										<div class="4u 12u$(small)">
-											<input type="radio" id="To_Approve" name="accessAaction" value="เพื่อโปรดอนุมัติ">
-											<label for="To_Approve">เพื่อโปรดอนุมัติ</label>
-										</div>
-										<div class="5u 12u$(small)">
-											<input type="radio" id="Should_Slow" name="accessAaction" value="เห็นควรชะลอ">
-											<label for="Should_Slow">เห็นควรชะลอ</label>
-										</div>
-										<div class="3u 12u$(small)"></div>
-										<div class="4u 12u$(small)">
-											<input type="radio" id="For_Consider" name="accessAaction" value="เพื่อโปรดพิจารณา">
-											<label for="For_Consider">เพื่อโปรดพิจารณา</label>
-										</div>
-										<div class="5u 12u$(small)">
-											<input type="radio" id="Send_Cen_Lib" name="accessAaction" value="นำส่งสำนักหอสมุดกลาง">
-											<label for="Send_Cen_Lib">นำส่งสำนักหอสมุดกลาง</label>
-										</div>
-										<div class="3u 12u$(small)"></div>
-										<div class="4u 12u$(small)">
-											<input type="radio" id="For_command" name="accessAaction" value="เพื่อโปรดสั่งการ">
-											<label for="For_command">เพื่อโปรดสั่งการ</label>
-										</div>
-										<div class="5u 12u$(small)">
-											<input type="radio" id="Send_Finance_and_Property" name="accessAaction" value="นำส่งสำนักการคลังและทรัพย์สิน">
-											<label for="Send_Finance_and_Property">นำส่งสำนักการคลังและทรัพย์สิน</label>
-										</div>
-										<div class="3u 12u$(small)"></div>
-										<div class="4u 12u$(small)">
-											<input type="radio" id="Check_Info" name="accessAaction" value="โปรดตรวจสอบข้อมูล">
-											<label for="Check_Info">โปรดตรวจสอบข้อมูล</label>
-										</div>
-										<div class="5u 12u$(small)">
-											<input type="radio" id="Gather" name="accessAaction" value="ทราบ/รวบรวม">
-											<label for="Gather" >ทราบ/รวบรวม</label>
-										</div>
-										<div class="3u 12u$(small)"></div>
-										<div class="4u 12u$(small)">
-											<input type="radio" id="Next_Step" name="accessAaction" value="โปรดดำเนินการตามขั้นตอนต่อไป">
-											<label for="Next_Step">โปรดดำเนินการตามขั้นตอนต่อไป</label>
-										</div>
-										<div class="5u 12u$(small)">
-											<input type="radio" id="Other" name="accessAaction" >
-											<label for="Other">อื่นๆ</label>
-										</div>
-										<div class="3u 12u$(small)"></div>
-										<div class="4u 12u$(small)"></div>
-										<div class="5u 12u$(small)">
-											<textarea name="accessAaction" id="Message" placeholder="Enter your message" rows="2"></textarea>
-										</div>
+											<div class="4u 12u$(small)">
+												<input name="accessAaction" type="radio" value="เพื่อโปรดทราบ" id="Attention" >
+												<label for="Attention">เพื่อโปรดทราบ</label>
+											</div>
+											<div class="5u 12u$(small)">
+												<input type="radio" id="Ask_Opinion" name="accessAaction" value="ขอความเห็น">
+												<label for="Ask_Opinion">ขอความเห็น</label>
+											</div>
+											<div class="3u 12u$(small)"></div>
+											<div class="4u 12u$(small)">
+												<input type="radio" id="To_Approve" name="accessAaction" value="เพื่อโปรดอนุมัติ">
+												<label for="To_Approve">เพื่อโปรดอนุมัติ</label>
+											</div>
+											<div class="5u 12u$(small)">
+												<input type="radio" id="Should_Slow" name="accessAaction" value="เห็นควรชะลอ">
+												<label for="Should_Slow">เห็นควรชะลอ</label>
+											</div>
+											<div class="3u 12u$(small)"></div>
+											<div class="4u 12u$(small)">
+												<input type="radio" id="For_Consider" name="accessAaction" value="เพื่อโปรดพิจารณา">
+												<label for="For_Consider">เพื่อโปรดพิจารณา</label>
+											</div>
+											<div class="5u 12u$(small)">
+												<input type="radio" id="Send_Cen_Lib" name="accessAaction" value="นำส่งสำนักหอสมุดกลาง">
+												<label for="Send_Cen_Lib">นำส่งสำนักหอสมุดกลาง</label>
+											</div>
+											<div class="3u 12u$(small)"></div>
+											<div class="4u 12u$(small)">
+												<input type="radio" id="For_command" name="accessAaction" value="เพื่อโปรดสั่งการ">
+												<label for="For_command">เพื่อโปรดสั่งการ</label>
+											</div>
+											<div class="5u 12u$(small)">
+												<input type="radio" id="Send_Finance_and_Property" name="accessAaction" value="นำส่งสำนักการคลังและทรัพย์สิน">
+												<label for="Send_Finance_and_Property">นำส่งสำนักการคลังและทรัพย์สิน</label>
+											</div>
+											<div class="3u 12u$(small)"></div>
+											<div class="4u 12u$(small)">
+												<input type="radio" id="Check_Info" name="accessAaction" value="โปรดตรวจสอบข้อมูล">
+												<label for="Check_Info">โปรดตรวจสอบข้อมูล</label>
+											</div>
+											<div class="5u 12u$(small)">
+												<input type="radio" id="Gather" name="accessAaction" value="ทราบ/รวบรวม">
+												<label for="Gather" >ทราบ/รวบรวม</label>
+											</div>
+											<div class="3u 12u$(small)"></div>
+											<div class="4u 12u$(small)">
+												<input type="radio" id="Next_Step" name="accessAaction" value="โปรดดำเนินการตามขั้นตอนต่อไป">
+												<label for="Next_Step">โปรดดำเนินการตามขั้นตอนต่อไป</label>
+											</div>
+											<div class="5u 12u$(small)">
+												<input type="radio" id="Other" name="Other" value="โปรดดำเนินการตามขั้นตอนต่อไป" >
+												<label for="Other">อื่นๆ</label>
+											</div>
+											<div class="3u 12u$(small)"></div>
+											<div class="4u 12u$(small)"></div>
+											<div class="5u 12u$(small)">
+												<textarea name="Other" id="Message" placeholder="Enter your message" rows="2"></textarea>
+											</div>
+					
+											<?php 
+												while($z = mysqli_fetch_array($respr,MYSQLI_ASSOC)){ 
+												?>
+												<?php 			$positionId=$z['positionId'];
+																$s =  "SELECT * FROM positionuser WHERE positionId='$positionId'";
+																$res = mysqli_query($link,$s);
+																$row1 = mysqli_fetch_array($res,MYSQLI_ASSOC);
+																@$num++;
+																?>
+												<?php if(!empty($z['attached'])&& @$num1==0) { ?>
+														<div class="12u 12u$(small)"><b>ข้อความแนบท้าย</b></div>
+													<?php					$num1=1;           ?>
+												<?php } ?>
+												<?php if(!empty($z['attached'])) { ?>
+														
+														<div class="6u 12u$(small)">
+															<p><kbd>ความเห็นที่ <?php echo $num;?></kbd></p>
+															<p><em>
+																<?php if(!empty($z['accessAaction'])) { ?>
+																<?php echo $z['accessAaction']; ?><br>
+																<?php 			} ?>
+															<?php echo $z['attached'];?></em></p>
+															<p><code><?php echo $row1['positionName'];?></code></p>
+														</div>
+												<?php }else if(empty($z['attached'])){ ?>
+												<?php 			if(!empty($z['attached'])) { ?>	  		
+																	
+												<?php					break;           ?>
+												<?php 			} ?>	
+												<?php 	} ?>	 
+													
+										
+										<?php } 
+											mysqli_free_result($respr);
+											mysqli_close($link);
+											?>
 
 										
-										<div class="4u 12u$(small)"><b>เอกสารเพิ่มเติม  </b></div>
+										<div class="4u 12u$(small)"><b>เอกสารเพิ่มเติม </b></div>
 										<div class="8u 12u$(small)">
-											<input type="file" name="accessAttachment" style="color:red;" id="accessAttachment" accept="image/*">
+											<input type="file" name="accessAttachment" style="color:red;" id="accessAttachment" accept="file_extension/*">
 										</div>
 
 										<div class="12u 12u$(small)"><b>ส่งต่อ  </b></div>
@@ -190,8 +227,6 @@ if($_SESSION['ses_Id'] ==""){
 										<?php
 										while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
 											?>
-
-
 											<div class="6u$ 12u$(small) ">
 												<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[]" value="<?php echo $row['positionId'];?>">
 
@@ -200,7 +235,7 @@ if($_SESSION['ses_Id'] ==""){
 
 											<?php } 
 											mysqli_free_result($resulti);
-											mysqli_close($link);
+											@mysqli_close($link);
 
 											?>
 
@@ -208,7 +243,8 @@ if($_SESSION['ses_Id'] ==""){
 											<div class="12u$">
 												<ul class="actions">
 													<li>
-
+														
+																
 														<input type="submit" value="ส่งต่อ " class="special" /></li>
 														<li><input type="reset" value="ล้าง" /></li>
 													</ul>

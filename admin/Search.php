@@ -7,7 +7,7 @@ include "../pagination.php";
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -21,23 +21,15 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading">
 	<?php
 
-
+	
+	
 
 	$field = "ทั้งหมด";
-	$sql = "SELECT * FROM document " ;
+	$sql = "SELECT DISTINCT * FROM document " ;
 
 	if(!empty($_POST['documentId'])) {
 		$sql .= " WHERE documentId = " . $_POST['documentId'];
@@ -49,10 +41,13 @@ if($_SESSION['ses_Id'] ==""){
 		}
 		if(!empty($_POST['fromName'])) {
 			$sql .= " OR fromName LIKE '%" . $_POST['fromName'] . "%'";
-			$field .= " จาก" . $_POST['fromName'];
+			$field .= " จาก " . $_POST['fromName'];
 		}
-		if( $_POST['documentDateStart'] ){
-			if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
+		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+		}
+			else if( $_POST['documentDateStart'] ){
+			if((@$_POST['documentDateEnd']) > ( @$_POST['documentDateStart'] )){
 				if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 					$sql .= " OR documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." OR "."'". $_POST['documentDateEnd'] . "'";
 					$field .= " ค้นหาวันที่ " . $_POST['documentDateStart'] . " ถึง " . $_POST['documentDateEnd']; 
@@ -63,15 +58,12 @@ if($_SESSION['ses_Id'] ==""){
 				$field .= " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 			}
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
-		}		
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field .= " ประเภท " . $_POST['categoryDocument'];
+			
+		}	
 	}
 
 	else if(!empty($_POST['documentName'])) {
@@ -81,8 +73,11 @@ if($_SESSION['ses_Id'] ==""){
 			$sql .= " OR fromName LIKE '%" . $_POST['fromName'] . "%'";
 			$field .= " จาก" . $_POST['fromName'];
 		}
-		if( @$_POST['documentDateStart'] ){
-			if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
+		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+		}
+			else if( @$_POST['documentDateStart'] ){
+			if((@$_POST['documentDateEnd']) > ( @$_POST['documentDateStart'] )){
 				if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 					$sql .= " OR documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateEnd'] . "'";
 					$field .= " ค้นหาวันที่ " . $_POST['documentDateStart'] . " ถึง " . $_POST['documentDateEnd']; 
@@ -93,22 +88,22 @@ if($_SESSION['ses_Id'] ==""){
 				$field .= " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 			}
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
-		}			
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field .= " ประเภท " . $_POST['categoryDocument'];
+			
+		}		
 
 	}
 	else if(!empty($_POST['fromName'])) {
 		$sql .= " WHERE fromName LIKE '%" . $_POST['fromName'] . "%'";
 		$field = " จาก" . $_POST['fromName'];
 		if( @$_POST['documentDateStart'] ){
-			if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
+			if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+			}
+			else if((@$_POST['documentDateEnd']) > ( @$_POST['documentDateStart'] )){
 				if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 					$sql .= " OR documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateEnd'] . "'";
 					$field .= " ค้นหาวันที่ " . $_POST['documentDateStart'] . " ถึง " . $_POST['documentDateEnd']; 
@@ -119,18 +114,18 @@ if($_SESSION['ses_Id'] ==""){
 				$field .= " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 			}
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field .= " ประเภท " . $_POST['categoryDocument'];
+			
 		}		
 	}
 	else if( @$_POST['documentDateStart'] ){
-		if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
+		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+		}
+		else if((@$_POST['documentDateEnd']) > ( @$_POST['documentDateStart'] )){
 			if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 				$sql .= " WHERE documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateEnd'] . "'";
 				$field = " ค้นหาวันที่ " . $_POST['documentDateStart'] . " ถึง " . $_POST['documentDateEnd']; 
@@ -140,25 +135,19 @@ if($_SESSION['ses_Id'] ==""){
 			$sql .= " WHERE documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateStart'] . "'";
 			$field = " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field .= " ประเภท " . $_POST['categoryDocument'];
+			
 		}
 	}
 
-	else if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " WHERE categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " WHERE categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}	
+	else if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " WHERE categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field = " ประเภท " . $_POST['categoryDocument'];
+			
 		}
 
 
@@ -207,21 +196,21 @@ if($_SESSION['ses_Id'] ==""){
 					</span>
 					<h2><a href="#">เอกสารที่ค้นหา</a></h2>
 				</header>
-				<div class="table-wrapper">
-					<caption>
-						<?php 	echo "สินค้าลำดับที่  $first - $last จาก $total  ($field)"; ?>
+				<caption>
+						<?php 	echo "เอกสารลำดับที่  $first - $last จาก $total  ($field)"; ?>
 					</caption>
-					<br><br>
-					<table class="table">
+					<br><br> 
+				<div class="table-wrapper">
+					
+					<table class="table table-bordered">
 					
 						<thead>
 							<tr>
-								<th>รหัสเอกสาร</th>							
-								<th>เรื่อง</th>
-								<th>วันจัดเก็บ</th>
-								<th>วันที่เอกสาร</th>
-								<th>ผู้ส่งมาให้</th>
-								<th>สถานะ</th>
+								<th><?php echo "รหัสเอกสาร";?></th>							
+								<th><?php echo "เรื่อง";?></th>	
+								<th><?php echo "วันจัดเก็บ";?></th>	
+								<th><?php echo "ผู้ส่งมาให้";?></th>	
+								<th><?php echo "ระดับความสำคัญ";?></th>	
 							</tr>
 						</thead>
 
@@ -230,15 +219,16 @@ if($_SESSION['ses_Id'] ==""){
 							while ($row = mysqli_fetch_array($result)) {
 								?>
 								<tr>
-									<td>
-											<?php echo "$year /";?><a href="../admin/accessDocument.php?documentId=<?php echo $row['documentId']?>" ><?php echo $row['documentId'];?></a>
-
+										<td>
+											<a href="../admin/accessDocument.php?documentId=<?php echo $row['documentId']?>" class="alert alert-info">
+											<?php echo substr($row['documentTime'],0,4)."/".$row['documentId'];?>
+											</a>
 										</td>
-									<td><p><?php echo $row['documentName'];?></p></td>
-									<td><?php echo $row['documentTime'];?></td>
-									<td><?php echo $row['documentDate'];?></td>
-									<td><?php echo $row['fromName']; ?></td>
-									<td><?php echo $row['statusName'];?></td>
+										<td><p><?php echo $row['documentName'];?></p></td>
+										<td><?php echo $row['documentTime'];?></td>
+										<td><?php echo $row['fromName']; ?></td>
+										<td ><code><?php echo $row['urgent'];?></code></td>
+									
 								</tr>
 								<?php
 							}
@@ -247,12 +237,13 @@ if($_SESSION['ses_Id'] ==""){
 
 						</tbody>
 					</table>
-					<?php
+					
+				</div><br><br> 
+				<?php
 					page_echo_pagenums(5,true,false);
 					mysqli_free_result($result);
 					mysqli_close($link);
 					?>
-				</div>
 			</article>
 		</div>
 

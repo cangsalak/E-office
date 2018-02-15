@@ -7,7 +7,7 @@ include "../pagination.php";
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 2){
+} else if($_SESSION['status'] == 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -21,22 +21,13 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading">
 	<?php
 
 	$num=$_SESSION['ses_position'];
 	$field = "ทั้งหมด";
-	$sql = "SELECT document.* FROM document LEFT JOIN access 
+	$sql = "SELECT DISTINCT document.*,access.userId FROM document LEFT JOIN access 
 	  on document.documentId = access.documentId 
 	  WHERE access.positionId = '$num' " ;
 
@@ -52,7 +43,10 @@ if($_SESSION['ses_Id'] ==""){
 			$sql .= " OR document.fromName LIKE '%" . $_POST['fromName'] . "%'";
 			$field .= " จาก" . $_POST['fromName'];
 		}
-		if( @$_POST['documentDateStart'] ){
+		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+		}
+		else if( @$_POST['documentDateStart'] ){
 			if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
 				if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 					$sql .= " OR document.documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." OR "."'". $_POST['documentDateEnd'] . "'";
@@ -64,15 +58,12 @@ if($_SESSION['ses_Id'] ==""){
 				$field .= " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 			}
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
-		}			
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field = " ประเภท " . $_POST['categoryDocument'];
+			
+		}		
 	}
 
 	else if(!empty($_POST['documentName'])) {
@@ -82,7 +73,10 @@ if($_SESSION['ses_Id'] ==""){
 			$sql .= " OR document.fromName LIKE '%" . $_POST['fromName'] . "%'";
 			$field .= " จาก" . $_POST['fromName'];
 		}
-		if( @$_POST['documentDateStart'] ){
+		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+		}
+		else if( @$_POST['documentDateStart'] ){
 			if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
 				if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 					$sql .= " OR document.documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateEnd'] . "'";
@@ -94,21 +88,21 @@ if($_SESSION['ses_Id'] ==""){
 				$field .= " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 			}
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field = " ประเภท " . $_POST['categoryDocument'];
+			
 		}			
 
 	}
 	else if(!empty($_POST['fromName'])) {
 		$sql .= " AND document.fromName LIKE '%" . $_POST['fromName'] . "%'";
 		$field = " จาก" . $_POST['fromName'];
-		if( @$_POST['documentDateStart'] ){
+		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+		}
+		else if( @$_POST['documentDateStart'] ){
 			if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
 				if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 					$sql .= " OR document.documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateEnd'] . "'";
@@ -120,18 +114,18 @@ if($_SESSION['ses_Id'] ==""){
 				$field .= " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 			}
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field = " ประเภท " . $_POST['categoryDocument'];
+			
 		}		
 	}
 	else if( @$_POST['documentDateStart'] ){
-		if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
+		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
+				 
+		}
+		else if((@$_POST['documentDateEnd']) >= ( @$_POST['documentDateStart'] )){
 			if( (!empty($_POST['documentDateStart'])) && (!empty($_POST['documentDateEnd']))  )  {
 				$sql .= " AND document.documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateEnd'] . "'";
 				$field = " ค้นหาวันที่ " . $_POST['documentDateStart'] . " ถึง " . $_POST['documentDateEnd']; 
@@ -141,25 +135,19 @@ if($_SESSION['ses_Id'] ==""){
 			$sql .= " AND document.documentDate BETWEEN '" . $_POST['documentDateStart'] . "'" ." AND "."'". $_POST['documentDateStart'] . "'";
 			$field = " ค้นหาวันที่ " . $_POST['documentDateStart']; 
 		}
-		if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " OR document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}
+		if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " OR categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field = " ประเภท " . $_POST['categoryDocument'];
+			
 		}
 	}
 
-	else if(@$_POST['categoryDocument']) {
-			if ($_POST['categoryDocument'] == "categoryDocumentIn") {
-				$sql .= " AND document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}else if ($_POST['categoryDocument'] == "categoryDocumentOut") {
-				$sql .= " AND document.categoryDocument = " . $_POST['categoryDocument'];
-				$field = " จาก" . $_POST['categoryDocument'];
-			}	
+	else if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " AND categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field = " ประเภท " . $_POST['categoryDocument'];
+			
 		}
 
 
@@ -215,12 +203,12 @@ if($_SESSION['ses_Id'] ==""){
 					<table class="table">
 						<thead>
 							<tr>
-								<th>รหัสเอกสาร</th>							
-								<th>เรื่อง</th>
 								<th>วันจัดเก็บ</th>
-								<th>วันที่เอกสาร</th>
+								<th>รหัสเอกสาร</th>	
+								<th>จาก</th>						
+								<th>เรื่อง</th>
 								<th>ผู้ส่งมาให้</th>
-								<th>สถานะ</th>
+								<th>จาก</th>
 							</tr>
 						</thead>
 
@@ -230,14 +218,28 @@ if($_SESSION['ses_Id'] ==""){
 								?>
 								<tr>
 									<td>
-									<?php echo "$year /";?><a href="../user/accessDocument.php?documentId=<?php echo $row['documentId']?>" ><?php echo $row['documentId'];?></a>
-
+									<?php echo "$Time";?>
+									<td>
+											<a href="../user/accessDocument.php?documentId=<?php echo $row['documentId']?>" class="alert alert-info">
+											<?php echo substr($row['documentTime'],0,4)."/".$row['documentId'];?>
+											</a>
 										</td>
-									<td><p><?php echo $row['documentName'];?></p></td>
-									<td><?php echo $row['documentTime'];?></td>
-									<td><?php echo $row['documentDate'];?></td>
 									<td><?php echo $row['fromName']; ?></td>
-									<td><?php echo $row['statusName'];?></td>
+									<td><p><?php echo $row['documentName'];?></p></td>
+
+									<?php 
+									$nav=$row['userId'];
+									$uq =  "SELECT positionuser.* FROM the_user LEFT JOIN positionuser 
+	 										on the_user.positionId = positionuser.positionId  
+	 										where the_user.userId='$nav' ";
+									$resultU = mysqli_query($link,$uq);
+									$rowproU = mysqli_fetch_array($resultU,MYSQLI_ASSOC);
+										
+									?>
+										
+
+									<td ><span class="badge"><?php echo $rowproU['positionName'];?></span></td>
+									<td ><code><?php echo $row['urgent'];?></code></td>
 								</tr>
 								<?php
 							}
@@ -246,12 +248,13 @@ if($_SESSION['ses_Id'] ==""){
 
 						</tbody>
 					</table>
-					<?php
+					
+				</div><br>
+				<?php
 					page_echo_pagenums(5,true,false);
 					mysqli_free_result($result);
 					mysqli_close($link);
 					?>
-				</div>
 			</article>
 		</div>
 

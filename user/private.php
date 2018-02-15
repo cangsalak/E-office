@@ -9,7 +9,7 @@ $rowpro = mysqli_fetch_array($result,MYSQLI_ASSOC);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 2){
+} else if($_SESSION['status'] == 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -22,13 +22,7 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading">
 
 	<!-- Wrapper -->

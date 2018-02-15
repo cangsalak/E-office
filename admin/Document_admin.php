@@ -6,7 +6,7 @@ include "../pagination.php";
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -19,16 +19,7 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 
 <body class="is-loading">
 
@@ -91,16 +82,16 @@ if($_SESSION['ses_Id'] ==""){
 						<div class="5u 12u$(small)">
 							<input type="checkbox" id="documentDateStart" name="documentDateStart" >
 							<label for="documentDateStart">วันที่</label>
-							<input type="date" name="documentDateStart" id="documentDateStart" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" >
+							<input type="date" name="documentDateStart" id="documentDateStart" min="<?php echo "$yearMin-01-01";?>" max="<?php echo "$year-$m-$date";?>" value="<?php echo "$year-$m-$date";?>">
 						</div>
 						<div class="5u$ 12u$(small)">
 							<input type="checkbox" id="documentDateEnd" name="documentDateEnd" >
 							<label for="documentDateEnd">ถึงวันที่</label>
-							<input type="date" name="documentDateEnd" id="documentDateEnd" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" >
+							<input type="date" name="documentDateEnd" id="documentDateEnd" min="<?php echo "$yearMin-01-01";?>" max="<?php echo "$year-$m-$date";?>" value="<?php echo "$year-$m-$date";?>">
 						</div>
 
 						<div class="6u 12u$(small)">
-							<input type="radio" id="categoryDocumentIn" name="categoryDocument" value="เอกสารภายใน">
+							<input type="radio" id="categoryDocumentIn" name="categoryDocument" value="เอกสารภายใน" >
 							<label for="categoryDocumentIn">เอกสารภายใน</label>
 						</div>
 						<div class="6u 12u$(small)">

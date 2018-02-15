@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "connect.php";
+include "../connect.php";
 $id = $_GET['id'];
 
 $sql = "SELECT * FROM document WHERE documentId = '$id'";
@@ -8,11 +8,14 @@ $rs = mysqli_query($link,$sql);
 $data = mysqli_fetch_array($rs,MYSQLI_ASSOC);
 
 $type = "save_file";
-$src = "{$type}/{$data['attachment']}";
+// $type2 = "admin";
+//$src = "../{$type}/{$type2}/{$data['attachment']}";
+
+$src = "../{$type}/{$data['attachment']}";
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -28,16 +31,7 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<link href="assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading"  id="page-top">
 
 	<!-- Wrapper -->
@@ -52,11 +46,11 @@ if($_SESSION['ses_Id'] ==""){
 		<!-- Nav -->
 		<nav id="nav">
 			<ul class="links">
-				<li ><a href="admin/index.php">Home</a></li>
-				<li class="active"><a href="admin/Document_admin.php">Document search</a></li>
-				<li ><a href="admin/AddDocument.php">Add the document</a></li>
-				<li ><a href="admin/members.php">members</a></li>
-				<li><a href="admin/report.php">members</a></li>
+				<li ><a href="index.php">Home</a></li>
+				<li class="active"><a href="Document_admin.php">Document search</a></li>
+				<li ><a href="AddDocument.php">Add the document</a></li>
+				<li ><a href="members.php">members</a></li>
+				<li><a href="report.php">members</a></li>
 
 			</ul>
 			<ul class="icons">
@@ -72,14 +66,12 @@ if($_SESSION['ses_Id'] ==""){
 			<article class="post featured">
 				<header class="major">
 					<span class="date"><?php echo "$date $month $year";?></span>
-					<h3><a href="#"><?php echo "ไฟล์: {$data['attachment']}";?></a></h3>
+					<h3><a href="#"><?php echo "ไฟล์: {$data['documentName']}";?></a></h3>
 				</header>
 				<div class="table-wrapper">
 					
 						<?php
 						if($type=="save_file") {
-
-
 							echo "<img src=\"$src\"> ";
 
 						}
@@ -87,18 +79,20 @@ if($_SESSION['ses_Id'] ==""){
 							echo "<h3>ไม่สามารถเปิดไฟล์นี้ได้ กรุณาดาวน์โหลดมาเปิดบนเครื่องของท่านเอง</h3>";
 						}
 
-						mysqli_close($link);
+					
 						?>
 
 
 						
 						
 					</div><br><br><br>
-					<a href="download.php?id=<?php echo $id  ?>" target="iframe"><img src="images/arw-down.png" title="ดาวน์โหลด"></a>
+					<a href="../download.php?id=<?php echo $id  ?>" target="iframe"><img src="../images/arw-down.png" title="ดาวน์โหลด"></a>
 				</article>
 
 
-
+					<?php
+						mysqli_close($link);
+						?>
 
 
 

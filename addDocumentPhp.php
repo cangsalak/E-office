@@ -18,7 +18,7 @@ $statusName = mysqli_real_escape_string($link,$_POST['statusName']);
 $documentDate =mysqli_real_escape_string($link,$_POST['documentDate']);
 
 $ext = pathinfo(basename($_FILES['attachment']['name']), PATHINFO_EXTENSION); 
-$new_image_name = 'image_'.uniqid().".".$ext; 
+$new_image_name = 'admin_'.$Time."_".$Encrypt.".".$ext; 
 $image_path = "save_file/"; 
 $upload_path = $image_path.$new_image_name; 
 
@@ -26,19 +26,23 @@ $upload_path = $image_path.$new_image_name;
 $success = move_uploaded_file($_FILES['attachment']['tmp_name'],$upload_path);
 if ($success==FALSE) { 
   # code...
-  echo "Fail up load image"; 
-  exit(); 
+ $pro_attachment = "";
+   
+}else{
+	$pro_attachment = $new_image_name;
 }
-$pro_attachment = $new_image_name;
 
+$secrets = $_POST['secrets'];
+$status = 'New';
+$urgent = $_POST['urgent'];
 $categoryDocument = mysqli_real_escape_string($link,$_POST['categoryDocument']);
 $action = mysqli_real_escape_string($link,$_POST['action']);
 $story = mysqli_real_escape_string($link,$_POST['story']);
 $Number_of_book = mysqli_real_escape_string($link,$_POST['Number_of_book']);
 $positionId = $_POST['positionId'];
 
-$sql = "INSERT INTO document (fromName,statusName,documentDate,documentTime,attachment,categoryDocument,documentName,action,story,Number_of_book,positionId) 
-       VALUES ('$fromName','$statusName','$documentDate',curdate(),'$pro_attachment','$categoryDocument','$documentName','$action','$story ','$Number_of_book','$positionId')";
+$sql = "INSERT INTO document (fromName,statusName,documentDate,documentTime,attachment,categoryDocument,documentName,action,story,Number_of_book,positionId,urgent,secrets,status) 
+       VALUES ('$fromName','$statusName','$documentDate','$Time','$pro_attachment','$categoryDocument','$documentName','$action','$story ','$Number_of_book','$positionId','$urgent','$secrets','$status')";
 
  $result = mysqli_query($link,$sql);
 

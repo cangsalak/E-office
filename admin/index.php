@@ -2,16 +2,15 @@
 session_start();
 include "../connect.php";
 include "../pagination.php";
-$q = "SELECT * FROM document WHERE documentTime  BETWEEN curdate() AND curdate() ORDER BY documentTime DESC";
-$result = page_query($link,$q,4);
+$q = "SELECT * FROM document WHERE status = 'New' AND documentTime = '$Time'  ORDER BY documentTime DESC";
+$result = page_query($link,$q,5);
 
-$sq =  "SELECT * FROM positionuser";
-$resulti = mysqli_query($link,$sq);
+
 
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -19,17 +18,7 @@ if($_SESSION['ses_Id'] ==""){
 	?>
 	<!DOCTYPE HTML>
 	<html>
-	<head>
-		<title>Massively by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../assets/css/main.css" />
-		<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-		
-	</head>
+	<?php include "../headAdmin.php"; ?>
 	<body class="is-loading">
 
 		<!-- Wrapper -->
@@ -37,8 +26,8 @@ if($_SESSION['ses_Id'] ==""){
 
 			<!-- Intro -->
 			<div id="intro">
-				<h1><a href="#">Wellcome to <br>E-Office Eastern University</a></h1>
-				<p> <?php echo "สวัสดีครับ อ. ".$_SESSION['ses_Name'];	?></p>
+				<h1><a href="#">Wellcome to </a></h1><br><h2><a href="#">Office automation Eastern University</a></h2>
+				<p> <?php echo "สวัสดีครับ  ".$_SESSION['ses_Name'];	?></p>
 				<ul class="actions">
 					<li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
 				</ul>
@@ -73,18 +62,18 @@ if($_SESSION['ses_Id'] ==""){
 							<?php echo "$date $month $year";?>
 
 						</span>
-						<h2><a href="#">เอกสารล่าสุด</a></h2>
+						<h2><a href="#" >เอกสารล่าสุด</a></h2>
 					</header>
 
 					<div class="table-wrapper">
-						<table class="table">
+						<table class="table table-bordered">
 							<thead>
 								<tr>
 									<th><?php echo "รหัสเอกสาร";?></th>							
 									<th><?php echo "เรื่อง";?></th>	
 									<th><?php echo "วันจัดเก็บ";?></th>	
 									<th><?php echo "ผู้ส่งมาให้";?></th>	
-									<th><?php echo "สถานะ";?></th>	
+									<th><?php echo "ระดับความสำคัญ";?></th>	
 								</tr>
 							</thead>
 
@@ -93,14 +82,17 @@ if($_SESSION['ses_Id'] ==""){
 									<?php
 									while ($row = mysqli_fetch_array($result)) {
 										?>
-										<td>
-											<?php echo "$year /";?><a href="../admin/accessDocument.php?documentId=<?php echo $row['documentId']?>" ><?php echo $row['documentId'];?></a>
 
+											
+										<td>
+											<a href="../admin/accessDocument.php?documentId=<?php echo $row['documentId']?>" class="alert alert-info">
+											<?php echo substr($row['documentTime'],0,4)."/".$row['documentId'];?>
+											</a>
 										</td>
-										<td><?php echo $row['documentName'];?></td>
+										<td><p><?php echo $row['documentName'];?></p></td>
 										<td><?php echo $row['documentTime'];?></td>
 										<td><?php echo $row['fromName']; ?></td>
-										<td><?php echo $row['action'];?></td>
+										<td ><code><?php echo $row['urgent'];?></code></td>
 									</tr>
 									<?php
 								} 
@@ -110,13 +102,13 @@ if($_SESSION['ses_Id'] ==""){
 							</tbody>
 						</table>
 
+					
+					</div><br><br> 
 						<?php
-						page_echo_pagenums(4,true,false);
+						page_echo_pagenums(5,true,false);
 						mysqli_free_result($result);
 						
 						?>
-					</div>
-
 
 				</article>
 

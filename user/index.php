@@ -3,15 +3,15 @@ session_start();
 include "../connect.php";
 include "../pagination.php";
 $num=$_SESSION['ses_position'];
-$q = "SELECT document.*,access.* FROM document LEFT JOIN access 
+$q = "SELECT DISTINCT document.*,access.* FROM document LEFT JOIN access 
 	  on document.documentId = access.documentId 
-	  WHERE access.positionId = '$num' and document.documentTime  BETWEEN curdate() AND curdate() ORDER BY documentTime DESC";
+	  WHERE access.positionId = '$num' and document.documentTime  = '$Time' and access.status = 'New' ORDER BY documentTime DESC";
 $result = page_query($link,$q,5);
 
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 2){
+} else if($_SESSION['status'] == 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -24,16 +24,7 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading">
 
 	<!-- Wrapper -->
@@ -82,11 +73,12 @@ if($_SESSION['ses_Id'] ==""){
 							<table class="table">
 								<thead>
 									<tr>
-										<th><?php echo "รหัสเอกสาร";?></th>							
-										<th><?php echo "เรื่อง";?></th>	
-										<th><?php echo "วันจัดเก็บ";?></th>	
-										<th><?php echo "ผู้ส่งมาให้";?></th>	
-										<th><?php echo "สถานะ";?></th>	
+										<th>วันจัดเก็บ</th>
+										<th>รหัสเอกสาร</th>	
+										<th>จาก</th>						
+										<th>เรื่อง</th>
+										<th>ผู้ส่งมาให้</th>
+										<th>จาก</th>
 									</tr>
 								</thead>
 
@@ -96,15 +88,29 @@ if($_SESSION['ses_Id'] ==""){
 						while ($row = mysqli_fetch_array($result)) {
 							?>			
 									<tr>
+										<td><?php echo "$Time";?></td>
 										<td>
-											<?php echo "$year /";?><a href="../user/accessDocument.php?documentId=<?php echo $row['documentId']?>" ><?php echo $row['documentId'];?></a>
-
+											<a href="../user/accessDocument.php?documentId=<?php echo $row['documentId']?>" class="alert alert-info">
+											<?php echo substr($row['documentTime'],0,4)."/".$row['documentId'];?>
+											</a>
 										</td>
-										<td><p><?php echo $row['documentName'];?></p></td>
-										<td><?php echo $row['documentTime'];?></td>
-										<td><?php echo $row['fromName']; ?></td>
-										<td><?php echo $row['action'];?></td>
-									</tr>
+									<td><?php echo $row['fromName'];?></td>
+									<td><p><?php echo $row['documentName'];?></p></td>
+
+									<?php 
+									$nav=$row['userId'];
+									$uq =  "SELECT positionuser.* FROM the_user LEFT JOIN positionuser 
+	 										on the_user.positionId = positionuser.positionId  
+	 										where the_user.userId='$nav' ";
+									$resultU = mysqli_query($link,$uq);
+									$rowproU = mysqli_fetch_array($resultU,MYSQLI_ASSOC);
+										
+									?>
+										
+
+									<td><span class="badge"><?php echo $rowproU['positionName'];?></span></td>
+									<td><code><?php echo $row['urgent'];?></code></td>
+								</tr>
 									<?php
 								} 
 								?>
@@ -113,13 +119,13 @@ if($_SESSION['ses_Id'] ==""){
 							</tbody>
 						</table>
 
-						<?php
+						
+					</div>
+					<?php
 						page_echo_pagenums(5,true,false);
 						mysqli_free_result($result);
 						mysqli_close($link);
 						?>
-					</div>
-
 			</article>
 
 			<!-- Posts -->

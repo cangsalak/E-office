@@ -7,7 +7,7 @@ $q =  "SELECT * FROM positionuser";
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 1){
+} else if($_SESSION['status'] != 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -20,16 +20,7 @@ if($_SESSION['ses_Id'] ==""){
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-<head>
-	<title>Massively by HTML5 UP</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../assets/css/main.css" />
-	<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-	<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-	<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-</head>
+<?php include "../headAdmin.php"; ?>
 <body class="is-loading"  id="page-top">
 
 	<!-- Wrapper -->
@@ -62,7 +53,7 @@ if($_SESSION['ses_Id'] ==""){
 			<!-- Featured Post -->
 			<article class="post featured">
 				<header class="major">
-					<span class="date"><?php echo "$date $month $year";?></span>
+					<span class="date"><?php echo "$date $month $year"; ?></span>
 					<h3><a href="#">เพิ่มเอกสาร</a></h3>
 				</header>
 				<form action="../addDocumentPhp.php" method="post"  class="alt" id="document1" enctype="multipart/form-data">
@@ -80,7 +71,7 @@ if($_SESSION['ses_Id'] ==""){
 							<input type="text" name="documentName" id="documentName" value="" placeholder="เรื่อง" />
 						</div>
 						<div class="2u 12u$(xsmall)">
-							<p>หน่วยงานที่ส่งมา</p>
+							<p size="18px">หน่วยงานที่ส่งมา</p>
 						</div>
 						<div class="10u 12u$(xsmall)">
 							<input type="text" name="fromName" id="fromName" value="" placeholder="หน่วยงาน" />
@@ -112,32 +103,13 @@ if($_SESSION['ses_Id'] ==""){
 							<p>วันที่รับ</p>
 						</div>
 						<div class="5u 12u$(small)">
-							<input type="date" name="documentDate" id="documentDate" min="2560-01-01" max="<?php echo "$year-$m-$date";?>" 
+							<input type="date" name="documentDate" id="documentDate" min="<?php echo "$yearMin-01-01";?>" max="<?php echo "$year-$m-$date";?>" 
 							value="<?php echo "$year-$m-$date";?>">
 						</div>
 						<div class="5u$ 12u$(small)">
 							
 						</div>
 						
-						<div class="2u 12u$(xsmall)">
-							<p>เรียน</p>
-						</div>
-						<div class="10u 12u$(xsmall)">
-							<div class="select-wrapper">
-								<select name="statusName" id="statusName">
-									<option value="">- เลือก -</option>
-									<?php
-										while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
-											?>
-										<option value="<?php echo $row['positionName'];?>"><?php echo $row['positionName'];?></option>
-										<?php } 
-								mysqli_free_result($resulti);
-								mysqli_close($link);
-
-								?>
-								</select>
-							</div>
-						</div>
 						<div class="2u 12u$(xsmall)">
 							<p>การดำเนินการ</p>
 						</div>
@@ -157,15 +129,49 @@ if($_SESSION['ses_Id'] ==""){
 									<option value="นำส่งสำนักการคลังและทรัพย์สิน">นำส่งสำนักการคลังและทรัพย์สิน</option>
 									<option value="ทราบ/รวบรวม">ทราบ/รวบรวม</option>
 								</select>
-								
-
 							</div>
 						</div>
+
+						<div class="2u 12u$(xsmall)">
+							<p>ชั้นความลับ</p>
+						</div>
+						<div class="10u 12u$(xsmall)">
+							<div class="select-wrapper">
+								<select name="secrets" id="secrets">
+									<option value="">- เลือก -</option>
+									<option value="ธรรมดา">ธรรมดา</option>
+									<option value="ลับ">ลับ</option>
+									<option value="ลับสุดยอด">ลับสุดยอด</option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="2u 12u$(xsmall)">
+							<p>เรียน</p>
+						</div>
+						<div class="10u 12u$(xsmall)">
+							<div class="select-wrapper">
+								<select name="statusName" id="statusName">
+									<option value="">- เลือก -</option>
+									<?php
+										while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
+											?>
+										<option value="<?php echo $row['positionName'];?>"><?php echo $row['positionName'];?></option>
+										<?php } 
+								mysqli_free_result($resulti);
+								mysqli_close($link);
+
+								?>
+								</select>
+							</div>
+						</div>
+
 						<div class="2u 12u$(xsmall)">
 							<p>ไฟล์เอกสาร</p>
 						</div>
 						<div class="10u 12u$(xsmall)">
-							<input type="file" name="attachment" style="color:red;" id="attachment" accept="image/*">
+							<input type="file" name="attachment" style="color:red;" id="attachment" accept="file_extension/*">
 						</div>
 						<div class="6u 12u$(small)">
 							<input type="radio" id="categoryDocumentIn" name="categoryDocument" value="เอกสารภายใน">
@@ -174,6 +180,18 @@ if($_SESSION['ses_Id'] ==""){
 						<div class="6u 12u$(small)">
 							<input type="radio" id="categoryDocumentOut" name="categoryDocument" value="เอกสารภายนอก" checked>
 							<label for="categoryDocumentOut">เอกสารภายนอก</label>
+						</div>
+						<div class="4u 12u$(small)">
+							<input type="radio" id="urgent" name="urgent" value="ด่วน" checked>
+							<label for="urgent">ด่วน</label>
+						</div>
+						<div class="4u 12u$(small)">
+							<input type="radio" id="urgentMuch" name="urgent" value="ด่วนมาก" >
+							<label for="urgentMuch">ด่วนมาก</label>
+						</div>
+						<div class="4u 12u$(small)">
+							<input type="radio" id="urgentMost" name="urgent" value="ด่วนที่สุด" >
+							<label for="urgentMost">ด่วนที่สุด</label>
 						</div>
 						<div class="3u 12u$(xsmall)">
 							<p>หมายเหตุ</p>

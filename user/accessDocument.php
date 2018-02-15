@@ -3,9 +3,13 @@ session_start();
 include "../connect.php";
 include "../pagination.php";
 $documentId = $_GET['documentId'];
-$qpro= "SELECT * FROM document WHERE documentId = '$documentId' ORDER BY documentTime DESC";
+$qpro= "SELECT * FROM document WHERE documentId = '$documentId'  ORDER BY documentTime DESC";
 $respro = mysqli_query($link,$qpro);
 $rowpro = mysqli_fetch_array($respro,MYSQLI_ASSOC);
+
+$qpr= "SELECT * FROM access WHERE documentId = '$documentId' ";
+$respr = mysqli_query($link,$qpr);
+
 $name=$_SESSION['ses_userId'];
 $q =  "SELECT * FROM the_user where userId='$name'";
 $result = mysqli_query($link,$q);
@@ -17,7 +21,7 @@ $resulti = mysqli_query($link,$sq);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
-} else if($_SESSION['status'] != 2){
+} else if($_SESSION['status'] == 'admin'){
 	header("Location: ../logout.php");
 	die();
 }else{
@@ -25,24 +29,14 @@ if($_SESSION['ses_Id'] ==""){
 	?>
 	<!DOCTYPE HTML>
 	<html>
-	<head>
-		<title>Massively by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../assets/css/main.css" />
-		<link href="../assets/css/freelancer.min.css" rel="stylesheet">
-		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-
-		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-		
-	</head>
+	<?php include "../headAdmin.php"; ?>
 	<body class="is-loading">
 
 		<!-- Wrapper -->
 		<div id="wrapper" class="fade-in">
 
 			<!-- Intro -->
-		
+
 
 			<!-- Header -->
 			<header id="header">
@@ -55,7 +49,7 @@ if($_SESSION['ses_Id'] ==""){
 					<li class="active"><a href="../user/index.php">Home</a></li>
 					<li><a href="../user/Document.php">Document search</a></li>
 					<li><a href="../user/private.php?userId=<?php echo $_SESSION['ses_userId']?>">private</a></li>
-				
+
 				</ul>
 				<ul class="icons">
 					<li><a href="../logout.php" class="fa fa-sign-out"><span class="label"> Log out</span></a></li>
@@ -117,174 +111,220 @@ if($_SESSION['ses_Id'] ==""){
 												<p for="attachment">ไฟล์</p>
 											</div>
 											<div class="8u 12u$(xsmall)">
-											   <a href="../view.php?id=<?php echo $rowpro['documentId'] ?>" target="_blank"><img src="../images/view.png" title="เปิด"
-												width="32" height="32"></a>
-												<a href="../download.php?id=<?php echo $rowpro['documentId'] ?>" target="iframe"><img src="../images/arw-down.png" title="ดาวน์โหลด" width="32" height="32"></a>
-											</div>
+												<a href="view.php?id=<?php echo $rowpro['documentId'] ?>" target="_blank"><img src="../images/view.png" title="เปิด"
+													width="32" height="32"></a>
+													<a href="../download.php?id=<?php echo $rowpro['documentId'] ?>" target="iframe"><img src="../images/arw-down.png" title="ดาวน์โหลด" width="32" height="32"></a>
+												</div>
 
-											<div class="3u 12u$(small)"><b>ความคิดเห็น </b></div>
-											<div class="4u 12u$(small)">
-												<input name="accessAaction" type="radio" value="เพื่อโปรดทราบ" id="Attention" checked>
-												<label for="Attention">เพื่อโปรดทราบ</label>
-											</div>
-											<div class="5u 12u$(small)">
-												<input type="radio" id="Ask_Opinion" name="accessAaction" value="ขอความเห็น">
-												<label for="Ask_Opinion">ขอความเห็น</label>
-											</div>
-											<div class="3u 12u$(small)"></div>
-											<div class="4u 12u$(small)">
-												<input type="radio" id="To_Approve" name="accessAaction" value="เพื่อโปรดอนุมัติ">
-												<label for="To_Approve">เพื่อโปรดอนุมัติ</label>
-											</div>
-											<div class="5u 12u$(small)">
-												<input type="radio" id="Should_Slow" name="accessAaction" value="เห็นควรชะลอ">
-												<label for="Should_Slow">เห็นควรชะลอ</label>
-											</div>
-											<div class="3u 12u$(small)"></div>
-											<div class="4u 12u$(small)">
-												<input type="radio" id="For_Consider" name="accessAaction" value="เพื่อโปรดพิจารณา">
-												<label for="For_Consider">เพื่อโปรดพิจารณา</label>
-											</div>
-											<div class="5u 12u$(small)">
-												<input type="radio" id="Send_Cen_Lib" name="accessAaction" value="นำส่งสำนักหอสมุดกลาง">
-												<label for="Send_Cen_Lib">นำส่งสำนักหอสมุดกลาง</label>
-											</div>
-											<div class="3u 12u$(small)"></div>
-											<div class="4u 12u$(small)">
-												<input type="radio" id="For_command" name="accessAaction" value="เพื่อโปรดสั่งการ">
-												<label for="For_command">เพื่อโปรดสั่งการ</label>
-											</div>
-											<div class="5u 12u$(small)">
-												<input type="radio" id="Send_Finance_and_Property" name="accessAaction" value="นำส่งสำนักการคลังและทรัพย์สิน">
-												<label for="Send_Finance_and_Property">นำส่งสำนักการคลังและทรัพย์สิน</label>
-											</div>
-											<div class="3u 12u$(small)"></div>
-											<div class="4u 12u$(small)">
-												<input type="radio" id="Check_Info" name="accessAaction" value="โปรดตรวจสอบข้อมูล">
-												<label for="Check_Info">โปรดตรวจสอบข้อมูล</label>
-											</div>
-											<div class="5u 12u$(small)">
-												<input type="radio" id="Gather" name="accessAaction" value="ทราบ/รวบรวม">
-												<label for="Gather" >ทราบ/รวบรวม</label>
-											</div>
-											<div class="3u 12u$(small)"></div>
-											<div class="4u 12u$(small)">
-												<input type="radio" id="Next_Step" name="accessAaction" value="โปรดดำเนินการตามขั้นตอนต่อไป">
-												<label for="Next_Step">โปรดดำเนินการตามขั้นตอนต่อไป</label>
-											</div>
-											<div class="5u 12u$(small)">
-												<input type="radio" id="Other" name="accessAaction" >
-												<label for="Other">อื่นๆ</label>
-											</div>
-											<div class="3u 12u$(small)"></div>
-											<div class="4u 12u$(small)"></div>
-											<div class="5u 12u$(small)">
-												<textarea name="accessAaction" id="Message" placeholder="Enter your message" rows="2"></textarea>
-											</div>
 
-											<div class="4u 12u$(small)"><b>เอกสารเพิ่มเติม  </b></div>
-											<div class="8u 12u$(small)"><span><input type="file" name="accessAttachment" accept="images/*"></span></div>
-
-											<div class="12u 12u$(small)"><b>ส่งต่อ  </b></div>
-
-											<?php
-											while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
-												?>
-												
-												
-													<div class="6u$ 12u$(small) ">
-													<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[]" value="<?php echo $row['positionId'];?>">
-
-													<label for="positionId[<?php echo $row['positionId'];?>]"><?php echo $row['positionName'];?></label>
-												</div> 
-
-														
-													<?php } 
-													mysqli_free_result($resulti);
-													mysqli_close($link);
-
+												<?php 
+												while($z = mysqli_fetch_array($respr,MYSQLI_ASSOC)){ 
 													?>
-													
+													<?php 			$positionId=$z['positionId'];
+													$s =  "SELECT * FROM positionuser WHERE positionId='$positionId'";
+													$res = mysqli_query($link,$s);
+													$row1 = mysqli_fetch_array($res,MYSQLI_ASSOC);
+													@$num++;
+													?>
+													<?php if(!empty($z['attached'])&& @$num1==0) { ?>
+													<div class="12u 12u$(small)"><b>ข้อความคิดเห็นก่อนหน้า</b></div>
+													<?php					$num1=1;           ?>
+													<?php } ?>
+													<?php if(!empty($z['attached'])) { ?>
 
-													<div class="12u$">
-														<ul class="actions">
-															<li>
-																<input type="hidden" name="categoryId" value="<?php echo $rowproi['categoryId']; ?>" />
-																<input type="hidden" name="documentId" value="<?php echo $rowpro['documentId']; ?>" />
-																<input type="submit" value="ส่งต่อ " class="special" /></li>
-																<li><input type="reset" value="ล้าง" /></li>
-															</ul>
+													<div class="6u 12u$(small)">
+														<p><kbd>ความเห็นที่ <?php echo $num;?></kbd></p>
+														<p><em>
+															<?php if(!empty($z['accessAaction'])) { ?>
+															<?php echo $z['accessAaction']; ?><br>
+															<?php 			} ?>
+															<?php echo $z['attached'];?></em></p>
+															<p><code><?php echo $row1['positionName'];?></code></p>
 														</div>
+														<?php }else if(empty($z['attached'])){ ?>
+														<?php 			if(!empty($z['attached'])) { ?>	  		
+
+														<?php					break;           ?>
+														<?php 			} ?>	
+														<?php 	} ?>	 
+
+
+														<?php } 
+														mysqli_free_result($respr);
+													
+														?>
+
+
+
+														<div class="3u 12u$(small)"><b>ความคิดเห็น </b></div>
+														<div class="4u 12u$(small)">
+															<input name="accessAaction" type="radio" value="เพื่อโปรดทราบ" id="Attention" checked>
+															<label for="Attention">เพื่อโปรดทราบ</label>
+														</div>
+														<div class="5u 12u$(small)">
+															<input type="radio" id="Ask_Opinion" name="accessAaction" value="ขอความเห็น">
+															<label for="Ask_Opinion">ขอความเห็น</label>
+														</div>
+														<div class="3u 12u$(small)"></div>
+														<div class="4u 12u$(small)">
+															<input type="radio" id="To_Approve" name="accessAaction" value="เพื่อโปรดอนุมัติ">
+															<label for="To_Approve">เพื่อโปรดอนุมัติ</label>
+														</div>
+														<div class="5u 12u$(small)">
+															<input type="radio" id="Should_Slow" name="accessAaction" value="เห็นควรชะลอ">
+															<label for="Should_Slow">เห็นควรชะลอ</label>
+														</div>
+														<div class="3u 12u$(small)"></div>
+														<div class="4u 12u$(small)">
+															<input type="radio" id="For_Consider" name="accessAaction" value="เพื่อโปรดพิจารณา">
+															<label for="For_Consider">เพื่อโปรดพิจารณา</label>
+														</div>
+														<div class="5u 12u$(small)">
+															<input type="radio" id="Send_Cen_Lib" name="accessAaction" value="นำส่งสำนักหอสมุดกลาง">
+															<label for="Send_Cen_Lib">นำส่งสำนักหอสมุดกลาง</label>
+														</div>
+														<div class="3u 12u$(small)"></div>
+														<div class="4u 12u$(small)">
+															<input type="radio" id="For_command" name="accessAaction" value="เพื่อโปรดสั่งการ">
+															<label for="For_command">เพื่อโปรดสั่งการ</label>
+														</div>
+														<div class="5u 12u$(small)">
+															<input type="radio" id="Send_Finance_and_Property" name="accessAaction" value="นำส่งสำนักการคลังและทรัพย์สิน">
+															<label for="Send_Finance_and_Property">นำส่งสำนักการคลังและทรัพย์สิน</label>
+														</div>
+														<div class="3u 12u$(small)"></div>
+														<div class="4u 12u$(small)">
+															<input type="radio" id="Check_Info" name="accessAaction" value="โปรดตรวจสอบข้อมูล">
+															<label for="Check_Info">โปรดตรวจสอบข้อมูล</label>
+														</div>
+														<div class="5u 12u$(small)">
+															<input type="radio" id="Gather" name="accessAaction" value="ทราบ/รวบรวม">
+															<label for="Gather" >ทราบ/รวบรวม</label>
+														</div>
+														<div class="3u 12u$(small)"></div>
+														<div class="4u 12u$(small)">
+															<input type="radio" id="Next_Step" name="accessAaction" value="โปรดดำเนินการตามขั้นตอนต่อไป">
+															<label for="Next_Step">โปรดดำเนินการตามขั้นตอนต่อไป</label>
+														</div>
+														<div class="5u 12u$(small)">
+															<input type="radio" id="Other" name="Other" value="โปรดดำเนินการตามขั้นตอนต่อไป" >
+															<label for="Other">อื่นๆ</label>
+														</div>
+														<div class="3u 12u$(small)"></div>
+														<div class="4u 12u$(small)"></div>
+														<div class="5u 12u$(small)">
+															<textarea name="Other" id="Message" placeholder="Enter your message" rows="2"></textarea>
+														</div>
+
+														<div class="3u 12u$(small)"><b>ข้อความแนบท้าย</b></div>
+														<div class="9u 12u$(small)">
+															<textarea name="attached" id="Message" placeholder="Enter your message" rows="2"></textarea>
+														</div>
+
+														<div class="4u 12u$(small)"><b>เอกสารเพิ่มเติม  </b></div>
+														<div class="8u 12u$(small)"><span><input type="file" name="accessAttachment" accept="file_extension/*"></span></div>
+
+														<div class="12u 12u$(small)"><b>ส่งต่อ  </b></div>
+
+														<?php
+														while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
+															?>
+															<?php if($name!=$row['positionId']) { ?>
+															<div class="6u$ 12u$(small) ">
+																<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[]" value="<?php echo $row['positionId'];?>">
+															   <label for="positionId[<?php echo $row['positionId'];?>]"><?php echo $row['positionName'];?></label>
+															</div> 
+															<?php } ?>
+
+
+
+
+															<?php } 
+															mysqli_free_result($resulti);
+															mysqli_close($link);
+
+															?>
+
+
+															<div class="12u$">
+																<ul class="actions">
+																	<li>
+																		<input type="hidden" name="categoryId" value="<?php echo $rowproi['categoryId']; ?>" />
+																		<input type="hidden" name="documentId" value="<?php echo $rowpro['documentId']; ?>" />
+																		<input type="submit" value="ส่งต่อ " class="special" /></li>
+																		<li><input type="reset" value="ล้าง" /></li>
+																	</ul>
+																</div>
+															</div>
+														</form>
+														<footer>
+															<p>
+																&copy; Copyright  by Administrator
+															</p>
+														</footer>
+
+
 													</div>
-												</form>
-												<footer>
-													<p>
-														&copy; Copyright  by Administrator
-													</p>
-												</footer>
-
-
+												</div>
 											</div>
 										</div>
-									</div>
+
+
+									</article>
+
+									<!-- Posts -->
+
+
 								</div>
 
 
-							</article>
 
-							<!-- Posts -->
+								<!-- Copyright -->
+								<div id="copyright">
+									<ul><li>&copy; Untitled</li><li>By: <a href="#">Foremost & Kwang</a></li></ul>
+								</div>
 
+							</div>
 
-						</div>
+							<!-- Scripts -->
+							<script src="../assets/js/jquery.min.js"></script>
+							<script src="../js/popper.min.js"></script>
+							<script src="../js/bootstrap.min.js"></script>
+							<script src="../assets/js/jquery.scrollex.min.js"></script>
+							<script src="../assets/js/jquery.scrolly.min.js"></script>
+							<script src="../assets/js/skel.min.js"></script>
+							<script src="../assets/js/util.js"></script>
+							<script src="../assets/js/main.js"></script>
+							<script>
+								$('a.doc-id').click(function(e) {
+									e.preventDefault();
 
-
-
-						<!-- Copyright -->
-						<div id="copyright">
-							<ul><li>&copy; Untitled</li><li>By: <a href="#">Foremost & Kwang</a></li></ul>
-						</div>
-
-					</div>
-
-					<!-- Scripts -->
-					<script src="../assets/js/jquery.min.js"></script>
-					<script src="../js/popper.min.js"></script>
-					<script src="../js/bootstrap.min.js"></script>
-					<script src="../assets/js/jquery.scrollex.min.js"></script>
-					<script src="../assets/js/jquery.scrolly.min.js"></script>
-					<script src="../assets/js/skel.min.js"></script>
-					<script src="../assets/js/util.js"></script>
-					<script src="../assets/js/main.js"></script>
-					<script>
-						$('a.doc-id').click(function(e) {
-							e.preventDefault();
-
-							var docId = $(this).text();
-							if (docId && !isNaN(docId)) {
-								$.ajax({
-									url: '../documents.php?docid=' + docId,
-									method: 'GET',
-									error: function() {
-										$('#info').html('<p>An error has occurred</p>');
-									},
-									success: function(data) {
-										var doc = JSON.parse(data);
-										if (doc) {
-											$('#documentId').text(doc.documentId);
-											$('#Doc_Date').text(doc.documentTime);
-											$('#To').text(doc.statusName);
-											$('#From').text(doc.fromName);
-											$('#Title').text(doc.documentName);
-											$('#portfolioModal1').modal('show');
-										}
+									var docId = $(this).text();
+									if (docId && !isNaN(docId)) {
+										$.ajax({
+											url: '../documents.php?docid=' + docId,
+											method: 'GET',
+											error: function() {
+												$('#info').html('<p>An error has occurred</p>');
+											},
+											success: function(data) {
+												var doc = JSON.parse(data);
+												if (doc) {
+													$('#documentId').text(doc.documentId);
+													$('#Doc_Date').text(doc.documentTime);
+													$('#To').text(doc.statusName);
+													$('#From').text(doc.fromName);
+													$('#Title').text(doc.documentName);
+													$('#portfolioModal1').modal('show');
+												}
+											}
+										});
 									}
 								});
-							}
-						});
-					</script>
+							</script>
 
-				</body>
-				</html>
-				<?php  }
+						</body>
+						</html>
+						<?php  }
 
-				?>
+						?>
