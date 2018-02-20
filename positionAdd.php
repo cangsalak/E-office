@@ -7,7 +7,7 @@ include "connect.php";
 $positionName = $_POST['positionName'];
 
 
-$up = "INSERT INTO positionuser (positionName) VALUES ('$positionName')";
+$up = "INSERT INTO positionuser (positionName,operation_positionuser) VALUES ('$positionName',NOW())";
 
 $result = mysqli_query($link,$up);
 

@@ -16,7 +16,7 @@ mysqli_query($link,"SET NAMES UTF8");
 	$month = $months[$m];
 	$year = date('Y')+543;
 	$yearMin=$year-1;
-	$Time=$year."/".$m."/".$date;
+	$Time=$year."-".$m."-".$date;
 	$TimeFine= date("H:i:s");
 	$Encrypt=md5($TimeFine);
 	

@@ -1,3 +1,4 @@
+<?php include "connect.php"; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,13 +7,14 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Login</title>
+	<title><?php echo $nameWeb;?></title>
 
 	<link href="assets/css/freelancer.min.css" rel="stylesheet">
 	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="assets/css/login.css" rel="stylesheet">
+	<link rel="shortcut icon" href="images/eau.ico">
 	<!-- Custom fonts for this template -->
-	
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	
 	
 </head>

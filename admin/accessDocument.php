@@ -4,6 +4,7 @@ include "../connect.php";
 include "../pagination.php";
 $documentId = $_GET['documentId'];
 $qpro= "SELECT * FROM document WHERE documentId = '$documentId' ORDER BY documentTime DESC";
+
 $respro = mysqli_query($link,$qpro);
 $rowpro = mysqli_fetch_array($respro,MYSQLI_ASSOC);
 
@@ -70,38 +71,41 @@ if($_SESSION['ses_Id'] ==""){
 
 									<div class="row uniform">
 										<div class="4u 12u$(xsmall)">
-											<b for="documentId">เลขที่เอกสาร</b>
-										</div>
-										<div class="8u 12u$(xsmall)">
-											<input type="text" name="documentId" id="documentId" class="form-control" value="<?php echo $rowpro['documentId']; ?>" readonly>
-										</div>
-										<div class="4u 12u$(xsmall)">
-											<b for="documentTime">วันที่รับเอกสาร</b>
-										</div>
-										<div class="8u 12u$(xsmall)">
-											<input type="text" name="documentTime" id="documentTime" class="form-control" value="<?php echo $rowpro['documentTime']; ?>" readonly>
-										</div>
-										<div class="4u 12u$(xsmall)">
-											<b for="statusName">ถึง</b>
-										</div>
-										<div class="8u 12u$(xsmall)">
-											<input type="text" name="statusName" id="statusName" class="form-control" value="<?php echo $rowpro['statusName']; ?>" readonly>
-										</div>
-										<div class="4u 12u$(xsmall)">
-											<b for="fromName">จาก</b>
-										</div>
-										<div class="8u 12u$(xsmall)">
-											<input type="text" name="fromName" id="fromName" class="form-control" value="<?php echo $rowpro['fromName']; ?>" readonly>
-										</div>
-										<div class="4u 12u$(xsmall)">
-											<b for="documentName">เรื่อง</b>
-										</div>
-										<div class="8u 12u$(xsmall)">
-											<input type="text" name="documentName" id="documentName" class="form-control" value="<?php echo $rowpro['documentName']; ?>" readonly>
-										</div>
+												<b for="documentId">เลขที่เอกสาร</b>
+											</div>
+											<div class="8u 12u$(xsmall)">
+												<?php echo "$year/";?><span name="documentId" id="documentId" ><?php echo $rowpro['documentId']; ?></span> 
+											</div>
+											<div class="4u 12u$(xsmall)">
+												<b for="documentTime">วันที่รับเอกสาร</b>
+											</div>
+											<div class="8u 12u$(xsmall)">
+												<span name="documentTime" id="documentTime" ><?php echo $rowpro['documentTime']; ?></span> 
+											</div>
+											<div class="4u 12u$(xsmall)">
+												<b for="statusName">ถึง</b>
+											</div>
+											<div class="8u 12u$(xsmall)">
+												<span name="statusName" id="statusName" ><?php echo $rowpro['statusName']; ?></span> 
+											</div>
+											<div class="4u 12u$(xsmall)">
+												<b for="fromName">จาก</b>
+											</div>
+											<div class="8u 12u$(xsmall)">
+												<span name="fromName" id="fromName" ><?php echo $rowpro['fromName']; ?></span> 
+											</div>
+
+											<div class="4u 12u$(xsmall)">
+												<b for="documentName">เรื่อง</b>
+											</div>
+											<div class="8u 12u$(xsmall)">
+												<span name="documentName" id="documentName" ><?php echo $rowpro['documentName']; ?></span> 
+											</div>
 										<div class="4u 12u$(xsmall)">
 											<b for="attachment">ไฟล์</b>
 										</div>
+
+
 
 										<?php if($rowpro['attachment']) { ?>
 
@@ -186,14 +190,16 @@ if($_SESSION['ses_Id'] ==""){
 																$s =  "SELECT * FROM positionuser WHERE positionId='$positionId'";
 																$res = mysqli_query($link,$s);
 																$row1 = mysqli_fetch_array($res,MYSQLI_ASSOC);
-																@$num++;
+																
 																?>
 												<?php if(!empty($z['attached'])&& @$num1==0) { ?>
 														<div class="12u 12u$(small)"><b>ข้อความแนบท้าย</b></div>
 													<?php					$num1=1;           ?>
 												<?php } ?>
-												<?php if(!empty($z['attached'])) { ?>
-														
+
+											
+												<?php 	if(!empty($z['attached'])) { ?>
+													<?php 	@$num++;?>
 														<div class="6u 12u$(small)">
 															<p><kbd>ความเห็นที่ <?php echo $num;?></kbd></p>
 															<p><em>
@@ -202,19 +208,23 @@ if($_SESSION['ses_Id'] ==""){
 																<?php 			} ?>
 															<?php echo $z['attached'];?></em></p>
 															<p><code><?php echo $row1['positionName'];?></code></p>
-														</div>
-												<?php }else if(empty($z['attached'])){ ?>
+														</div> 
+
+												<?php $sum=$num+$num;}else if(empty($z['attached'])){ ?>
 												<?php 			if(!empty($z['attached'])) { ?>	  		
 																	
 												<?php					break;           ?>
 												<?php 			} ?>	
-												<?php 	} ?>	 
-													
-										
+												<?php 	} ?>	 	
+												
 										<?php } 
 											mysqli_free_result($respr);
-											mysqli_close($link);
+											
 											?>
+											<?php 	if((@$sum/2)!= 0) { ?>
+																		<div class="6u 12u$(small)"></div>
+
+															<?php 	} ?>
 
 										
 										<div class="4u 12u$(small)"><b>เอกสารเพิ่มเติม </b></div>
@@ -227,15 +237,16 @@ if($_SESSION['ses_Id'] ==""){
 										<?php
 										while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
 											?>
-											<div class="6u$ 12u$(small) ">
-												<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[]" value="<?php echo $row['positionId'];?>">
-
-												<label for="positionId[<?php echo $row['positionId'];?>]"><?php echo $row['positionName'];?></label>
-											</div> 
+												<?php if(99!=$row['positionId']) { ?>
+													<div class="6u$ 12u$(small) ">
+														<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[]" value="<?php echo $row['positionId'];?>">
+														<label for="positionId[<?php echo $row['positionId'];?>]"><?php echo $row['positionName'];?></label>
+													</div> 
+												<?php } ?>
 
 											<?php } 
 											mysqli_free_result($resulti);
-											@mysqli_close($link);
+											mysqli_close($link);
 
 											?>
 

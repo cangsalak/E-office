@@ -17,9 +17,11 @@ $fromName = mysqli_real_escape_string($link,$_POST['fromName']);
 $statusName = mysqli_real_escape_string($link,$_POST['statusName']);
 $documentDate =mysqli_real_escape_string($link,$_POST['documentDate']);
 
+
+
 $ext = pathinfo(basename($_FILES['attachment']['name']), PATHINFO_EXTENSION); 
 $new_image_name = 'admin_'.$Time."_".$Encrypt.".".$ext; 
-$image_path = "save_file/"; 
+$image_path = "save_file/admin/".$year."/"; 
 $upload_path = $image_path.$new_image_name; 
 
 //uploading
@@ -41,8 +43,8 @@ $story = mysqli_real_escape_string($link,$_POST['story']);
 $Number_of_book = mysqli_real_escape_string($link,$_POST['Number_of_book']);
 $positionId = $_POST['positionId'];
 
-$sql = "INSERT INTO document (fromName,statusName,documentDate,documentTime,attachment,categoryDocument,documentName,action,story,Number_of_book,positionId,urgent,secrets,status) 
-       VALUES ('$fromName','$statusName','$documentDate','$Time','$pro_attachment','$categoryDocument','$documentName','$action','$story ','$Number_of_book','$positionId','$urgent','$secrets','$status')";
+$sql = "INSERT INTO document (fromName,statusName,documentDate,documentTime,attachment,categoryDocument,documentName,action,story,Number_of_book,positionId,urgent,secrets,status,operation_document) 
+       VALUES ('$fromName','$statusName','$documentDate','$Time','$pro_attachment','$categoryDocument','$documentName','$action','$story ','$Number_of_book','$positionId','$urgent','$secrets','$status',NOW())";
 
  $result = mysqli_query($link,$sql);
 

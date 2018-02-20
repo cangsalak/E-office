@@ -99,7 +99,7 @@ if($_SESSION['ses_Id'] ==""){
 	else if(!empty($_POST['fromName'])) {
 		$sql .= " WHERE fromName LIKE '%" . $_POST['fromName'] . "%'";
 		$field = " จาก" . $_POST['fromName'];
-		if( @$_POST['documentDateStart'] ){
+		if( $_POST['documentDateStart'] ){
 			if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
 				 
 			}
@@ -121,7 +121,14 @@ if($_SESSION['ses_Id'] ==""){
 			
 		}		
 	}
-	else if( @$_POST['documentDateStart'] ){
+	else if(!empty($_POST['categoryDocument'])) {
+		
+				$sql .= " WHERE categoryDocument = " ."'". $_POST['categoryDocument']."'";
+				$field = " ประเภท " . $_POST['categoryDocument'];
+
+			
+	}
+	else if(!empty($_POST['documentDateStart'] )){
 		if((@$_POST['documentDateEnd']) == ( @$_POST['documentDateStart'] )){
 				 
 		}
@@ -143,12 +150,7 @@ if($_SESSION['ses_Id'] ==""){
 		}
 	}
 
-	else if(!empty($_POST['categoryDocument'])) {
-		
-				$sql .= " WHERE categoryDocument = " ."'". $_POST['categoryDocument']."'";
-				$field = " ประเภท " . $_POST['categoryDocument'];
-			
-		}
+
 
 
 	$sql .= " ORDER BY documentId DESC";

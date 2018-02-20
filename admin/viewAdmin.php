@@ -8,10 +8,11 @@ $rs = mysqli_query($link,$sql);
 $data = mysqli_fetch_array($rs,MYSQLI_ASSOC);
 
 $type = "save_file";
-// $type2 = "admin";
-//$src = "../{$type}/{$type2}/{$data['attachment']}";
+$type2 = "admin";
+$type3 = $year;
+$src = "../{$type}/{$type2}/{$type3}/{$data['attachment']}";
 
-$src = "../{$type}/{$data['attachment']}";
+
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();

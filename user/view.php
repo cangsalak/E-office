@@ -2,15 +2,19 @@
 session_start();
 include "../connect.php";
 $id = $_GET['id'];
+$position = $_SESSION['ses_position'];
 
-$sql = "SELECT * FROM document WHERE documentId = '$id'";
+$sql = "SELECT  document.* FROM access LEFT JOIN document 
+	   on access.documentId = document.documentId  WHERE access.documentId = '$id' AND access.positionId ='$position'";
 $rs = mysqli_query($link,$sql);
 $data = mysqli_fetch_array($rs,MYSQLI_ASSOC);
+$pop=substr($data['attachment'],0,5);
 
 $type = "save_file";
-// $type2 = "user";
-// $src = "../{$type}/{$type2}/{$data['attachment']}";
-$src = "../{$type}/{$data['attachment']}";
+$type2 = $pop;
+$type3 = $year;
+$src = "../{$type}/{$type2}/{$type3}/{$data['attachment']}";
+
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
@@ -60,7 +64,7 @@ if($_SESSION['ses_Id'] ==""){
 			<article class="post featured">
 				<header class="major">
 					<span class="date"><?php echo "$date $month $year";?></span>
-					<h3><a href="#"><?php echo "ไฟล์: {$data['attachment']}";?></a></h3>
+					<h3><a href="#"><?php echo "ไฟล์: {$data['documentName']}";?></a></h3>
 				</header>
 				<div class="table-wrapper">
 					

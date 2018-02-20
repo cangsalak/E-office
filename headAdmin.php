@@ -1,4 +1,4 @@
-<?php $nameWeb="สำนักงานอัตโนมัติ"; ?>
+
 <head>
 		<title><?php echo $nameWeb;?></title>
 		<meta charset="utf-8" />

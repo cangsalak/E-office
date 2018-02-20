@@ -20,7 +20,7 @@ if($_POST['accessAaction']){
 $name=basename($_FILES['accessAttachment']['name']);
 $ext = pathinfo($name,PATHINFO_EXTENSION); 
 $new_image_name = 'admin_'.$Time."_".$Encrypt.".".$ext; 
-$image_path = "save_file/admin/additional/"; 
+$image_path = "save_file/admin/".$year."/additional/"; 
 $upload_path = $image_path.$new_image_name; 
 //uploading
 $success = move_uploaded_file($_FILES['accessAttachment']['tmp_name'],$upload_path);
@@ -35,23 +35,23 @@ $status = 'New';
 $positionId = $_POST['positionId']; 
 
 
-$up = " UPDATE document SET status='Solve' WHERE documentId = '$documentId' ";
+$up = " UPDATE document SET status='Solve',operation_document=NOW() WHERE documentId = '$documentId'";
 
 $result = mysqli_query($link,$up);
 
 if(@$_POST["positionId"]){
 	for($i=0;$i<sizeof($positionId);$i++){
 
-		$sql = "INSERT INTO access (accessDate,accessAttachment,positionId,documentId,userId,accessAaction,status) 
-		VALUES ('$Time','$pro_attachment','$positionId[$i]','$documentId','$userId','$accessAaction','$status')";
+		$sql = "INSERT INTO access (accessDate,accessAttachment,positionId,documentId,userId,accessAaction,status,operation_access) 
+		VALUES ('$Time','$pro_attachment','$positionId[$i]','$documentId','$userId','$accessAaction','$status',NOW())";
 
 		$result = mysqli_query($link,$sql);
 
 		
 	}
 }else{
-	$sql = "INSERT INTO access (accessDate,accessAttachment,documentId,userId,accessAaction) 
-	VALUES ('$Time','$pro_attachment','$documentId','$userId','$accessAaction')";
+	$sql = "INSERT INTO access (accessDate,accessAttachment,documentId,userId,accessAaction,operation_access) 
+	VALUES ('$Time','$pro_attachment','$documentId','$userId','$accessAaction',NOW())";
 	$result = mysqli_query($link,$sql);
 }	
 

@@ -78,7 +78,7 @@ if($_SESSION['ses_Id'] ==""){
 									?>
 									<tr>
 										<td>
-											<?php echo $row['positionId'] ?>
+											<?php echo $row['positionId']-1 ?>
 										</td>
 										<td><?php echo $row['positionName'] ?></td>
 							<td><a href="positionUpdate.php?positionId=<?php echo $row['positionId'] ?>"><button class="btn btn-primary">แก้ไข</button></a>
@@ -94,7 +94,7 @@ if($_SESSION['ses_Id'] ==""){
 							<P id="portfolio">
 							<div class="container">
 								<div class="portfolio-link" href="#portfolioModal1" data-toggle="modal">
-									<button type="button" class="btn btn-primary" >	เพิ่มสมาชิก</button>
+									<button type="button" class="btn btn-primary" >	เพิ่มตำแหน่ง</button>
 							
 								</div>
 								
@@ -135,7 +135,7 @@ if($_SESSION['ses_Id'] ==""){
 														<p for="exampleInputEmail1">ตำแหน่ง</p>
 													</div>
 													<div class="10u 12u$(xsmall)">
-														<input type="text" class="form-control" name="positionName" id="positionName" placeholder="Enter userId" type="text">
+														<input type="text" class="form-control" name="positionName" id="positionName" placeholder="Enter name" type="text">
 													</div>
 													
 

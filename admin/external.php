@@ -63,33 +63,38 @@ if($_SESSION['ses_Id'] ==""){
 				<div class="table-wrapper">
 					<table class="alt">
 						<table class="table">
+						<?php	if($result){ ?>
 							<thead>
 								<tr>
-									<th><?php echo "รหัสเอกสาร";?></th>							
-									<th><?php echo "เรื่อง";?></th>	
-									<th><?php echo "วันจัดเก็บ";?></th>	
-									<th><?php echo "ผู้ส่งมาให้";?></th>	
-									<th><?php echo "เอกสาร";?></th>	
+									<th> รหัสเอกสาร</th>							
+									<th>เรื่อง</th>	
+									<th>วันจัดเก็บ</th>	
+									<th>ผู้ส่งมาให้</th>	
+									<th>ระดับความสำคัญ</th>	
 								</tr>
 							</thead>
-
+						<?php		} ?>
 							<tbody>				
 								<tr>
 									<?php
 									while ($row = mysqli_fetch_array($result)) {
 										?>
-										<td>
-											<?php echo "$year /";?><?php echo $row['documentId'];?></a>
 
+											
+										<td>
+											<a href="../admin/accessDocument.php?documentId=<?php echo $row['documentId']?>" class="alert alert-info">
+											<?php echo substr($row['documentTime'],0,4)."/".$row['documentId'];?>
+											</a>
 										</td>
-										<td><?php echo $row['documentName'];?></td>
+										<td><p><?php echo $row['documentName'];?></p></td>
 										<td><?php echo $row['documentTime'];?></td>
 										<td><?php echo $row['fromName']; ?></td>
-										<td><?php echo $row['categoryDocument'];?></td>
+										<td ><code><?php echo $row['urgent'];?></code></td>
 									</tr>
 									<?php
 								} 
 								?>
+								
 
 
 							</tbody>

@@ -7,6 +7,8 @@ $sq =  "SELECT * FROM positionuser";
 $resulti = mysqli_query($link,$sq);
 $resulti1 = mysqli_query($link,$sq);
 $resulti2 = mysqli_query($link,$sq);
+$resulti3 = mysqli_query($link,$sq);
+$resulti4 = mysqli_query($link,$sq);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
 	die();
@@ -146,7 +148,7 @@ if($_SESSION['ses_Id'] ==""){
 														<p for="exampleInputEmail1">E-mail</p>
 													</div>
 													<div class="10u 12u$(xsmall)">
-														<input type="email" class="form-control" name="email" id="email" placeholder="Enter email" type="text">
+														<input type="text" class="form-control" name="email" id="email" placeholder="ใส่แค่ชื่อที่ต้องการ เมลเราจัดการให้ ...@stu.eau.ac.th" type="text">
 													</div>
 													<div class="2u 12u$(xsmall)">
 														<p for="exampleInputPassword1">รหัสผ่าน </p>
@@ -173,7 +175,8 @@ if($_SESSION['ses_Id'] ==""){
 																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 																	<?php } 
 																	mysqli_free_result($result);
-																	mysqli_close($link);
+																	
+
 
 																	?>
 
@@ -193,7 +196,8 @@ if($_SESSION['ses_Id'] ==""){
 																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 																	<?php } 
 																	mysqli_free_result($result1);
-																	mysqli_close($link);
+																	
+
 
 																	?>
 
@@ -213,6 +217,46 @@ if($_SESSION['ses_Id'] ==""){
 																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
 																	<?php } 
 																	mysqli_free_result($result2);
+																	
+
+
+																	?>
+																</select>
+															</div>
+													</div>
+													<div class="2u 12u$(xsmall)">
+														<p>ตำแหน่งที่ 4</p>
+													</div>
+													<div class="10u 12u$(xsmall)">
+														<div class="select-wrapper">
+															<select name="positionId4" id="positionId4">
+																<option value="">- เลือก -</option>
+																<?php
+																while ($row = mysqli_fetch_array($resulti3,MYSQLI_ASSOC)) {
+																	?>
+																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
+																	<?php } 
+																	mysqli_free_result($result3);
+																	
+
+
+																	?>
+																</select>
+															</div>
+													</div>
+													<div class="2u 12u$(xsmall)">
+														<p>ตำแหน่งที่ 5</p>
+													</div>
+													<div class="10u 12u$(xsmall)">
+														<div class="select-wrapper">
+															<select name="positionId5" id="positionId5">
+																<option value="">- เลือก -</option>
+																<?php
+																while ($row = mysqli_fetch_array($resulti4,MYSQLI_ASSOC)) {
+																	?>
+																	<option value="<?php echo $row['positionId'];?>"><?php echo $row['positionName'];?></option>
+																	<?php } 
+																	mysqli_free_result($result4);
 																	mysqli_close($link);
 
 																	?>

@@ -88,7 +88,18 @@ if($_SESSION['ses_Id'] ==""){
 						while ($row = mysqli_fetch_array($result)) {
 							?>			
 									<tr>
-										<td><?php echo "$Time";?></td>
+										<td>
+										<?php $months=array(  "0"=>"", "01"=>"ม.ค.", "02"=>"ก.พ.", "03"=>"มี.ค.", "04"=>"เม.ย.", "05"=>"พ.ค.", "06"=>"มิ.ย.", "07"=>"ก.ค.", "08"=>"ส.ค.", "09"=>"ก.ย.", "10"=>"ต.ค.",  "11"=>"พ.ย.",  "12"=>"ธ.ค." );  
+
+											  $d=substr($row['documentTime'],8);
+											  $sm=substr($row['documentTime'],5,2);
+											  $y=substr($row['documentTime'],0,4);
+
+											  $m = $months[$sm];
+
+										?>
+									<?php echo $d."/".$m."/".$y;?>
+									</td>
 										<td>
 											<a href="../user/accessDocument.php?documentId=<?php echo $row['documentId']?>" class="alert alert-info">
 											<?php echo substr($row['documentTime'],0,4)."/".$row['documentId'];?>

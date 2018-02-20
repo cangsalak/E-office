@@ -9,7 +9,7 @@ $positionName = $_POST['positionName'];
 
 
 
-$up = " UPDATE positionuser SET positionName='$positionName' WHERE positionId = '$positionId' ";
+$up = " UPDATE positionuser SET positionName='$positionName',operation_positionuser=NOW() WHERE positionId = '$positionId' ";
 
 $result = mysqli_query($link,$up);
 

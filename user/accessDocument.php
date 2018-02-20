@@ -76,32 +76,32 @@ if($_SESSION['ses_Id'] ==""){
 									<form method="post" action="../accessDocument.php?userId=<?php echo $_SESSION['ses_userId'] ?>" enctype="multipart/form-data" class="alt">
 										<div class="row uniform">
 											<div class="4u 12u$(xsmall)">
-												<p for="documentId">เลขที่เอกสาร</p>
+												<b for="documentId">เลขที่เอกสาร</b>
 											</div>
 											<div class="8u 12u$(xsmall)">
 												<?php echo "$year/";?><span name="documentId" id="documentId" ><?php echo $rowpro['documentId']; ?></span> 
 											</div>
 											<div class="4u 12u$(xsmall)">
-												<p for="documentTime">วันที่รับเอกสาร</p>
+												<b for="documentTime">วันที่รับเอกสาร</b>
 											</div>
 											<div class="8u 12u$(xsmall)">
 												<span name="documentTime" id="documentTime" ><?php echo $rowpro['documentTime']; ?></span> 
 											</div>
 											<div class="4u 12u$(xsmall)">
-												<p for="statusName">ถึง</p>
+												<b for="statusName">ถึง</b>
 											</div>
 											<div class="8u 12u$(xsmall)">
 												<span name="statusName" id="statusName" ><?php echo $rowpro['statusName']; ?></span> 
 											</div>
 											<div class="4u 12u$(xsmall)">
-												<p for="fromName">จาก</p>
+												<b for="fromName">จาก</b>
 											</div>
 											<div class="8u 12u$(xsmall)">
 												<span name="fromName" id="fromName" ><?php echo $rowpro['fromName']; ?></span> 
 											</div>
 
 											<div class="4u 12u$(xsmall)">
-												<p for="documentName">เรื่อง</p>
+												<b for="documentName">เรื่อง</b>
 											</div>
 											<div class="8u 12u$(xsmall)">
 												<span name="documentName" id="documentName" ><?php echo $rowpro['documentName']; ?></span> 
@@ -116,49 +116,54 @@ if($_SESSION['ses_Id'] ==""){
 													<a href="../download.php?id=<?php echo $rowpro['documentId'] ?>" target="iframe"><img src="../images/arw-down.png" title="ดาวน์โหลด" width="32" height="32"></a>
 												</div>
 
-
-												<?php 
+										<?php 
 												while($z = mysqli_fetch_array($respr,MYSQLI_ASSOC)){ 
-													?>
-													<?php 			$positionId=$z['positionId'];
-													$s =  "SELECT * FROM positionuser WHERE positionId='$positionId'";
-													$res = mysqli_query($link,$s);
-													$row1 = mysqli_fetch_array($res,MYSQLI_ASSOC);
-													@$num++;
-													?>
-													<?php if(!empty($z['attached'])&& @$num1==0) { ?>
-													<div class="12u 12u$(small)"><b>ข้อความคิดเห็นก่อนหน้า</b></div>
+												?>
+												<?php 			$positionId=$z['positionId'];
+																$s =  "SELECT * FROM positionuser WHERE positionId='$positionId'";
+																$res = mysqli_query($link,$s);
+																$row1 = mysqli_fetch_array($res,MYSQLI_ASSOC);
+																
+																?>
+												<?php if(!empty($z['attached'])&& @$num1==0) { ?>
+														<div class="12u 12u$(small)"><b>ข้อความแนบท้าย</b></div>
 													<?php					$num1=1;           ?>
-													<?php } ?>
-													<?php if(!empty($z['attached'])) { ?>
+												<?php } ?>
 
-													<div class="6u 12u$(small)">
-														<p><kbd>ความเห็นที่ <?php echo $num;?></kbd></p>
-														<p><em>
-															<?php if(!empty($z['accessAaction'])) { ?>
-															<?php echo $z['accessAaction']; ?><br>
-															<?php 			} ?>
+											
+												<?php 	if(!empty($z['attached'])&& ($z['positionId']!= $_SESSION['ses_position'])) { ?>
+													<?php 	@$num++;?>
+														<div class="6u 12u$(small)">
+															<p><kbd>ความเห็นที่ <?php echo $num;?></kbd></p>
+															<p><em>
+																<?php if(!empty($z['accessAaction'])) { ?>
+																<?php echo $z['accessAaction']; ?><br>
+																<?php 			} ?>
 															<?php echo $z['attached'];?></em></p>
 															<p><code><?php echo $row1['positionName'];?></code></p>
-														</div>
-														<?php }else if(empty($z['attached'])){ ?>
-														<?php 			if(!empty($z['attached'])) { ?>	  		
+														</div> 
 
-														<?php					break;           ?>
-														<?php 			} ?>	
-														<?php 	} ?>	 
+												<?php $sum=$num+$num;}else if(empty($z['attached'])){ ?>
+												<?php 			if(!empty($z['attached'])) { ?>	  		
+																	
+												<?php					break;           ?>
+												<?php 			} ?>	
+												<?php 	} ?>	 	
+												
+										<?php } 
+											mysqli_free_result($respr);
+											
+											?>
+											<?php 	if((@$sum/2)!= 0) { ?>
+																		<div class="6u 12u$(small)"></div>
 
-
-														<?php } 
-														mysqli_free_result($respr);
-													
-														?>
+															<?php 	} ?>
 
 
 
 														<div class="3u 12u$(small)"><b>ความคิดเห็น </b></div>
 														<div class="4u 12u$(small)">
-															<input name="accessAaction" type="radio" value="เพื่อโปรดทราบ" id="Attention" checked>
+															<input name="accessAaction" type="radio" value="เพื่อโปรดทราบ" id="Attention" >
 															<label for="Attention">เพื่อโปรดทราบ</label>
 														</div>
 														<div class="5u 12u$(small)">
@@ -229,7 +234,7 @@ if($_SESSION['ses_Id'] ==""){
 														<?php
 														while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
 															?>
-															<?php if($name!=$row['positionId']) { ?>
+															<?php if($name!=$row['positionId']&&99!=$row['positionId']) { ?>
 															<div class="6u$ 12u$(small) ">
 																<input type="checkbox" id="positionId[<?php echo $row['positionId'];?>]" name="positionId[]" value="<?php echo $row['positionId'];?>">
 															   <label for="positionId[<?php echo $row['positionId'];?>]"><?php echo $row['positionName'];?></label>

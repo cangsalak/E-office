@@ -2,7 +2,7 @@
 session_start();
 include "../connect.php";
 $q =  "SELECT * FROM positionuser";
- $resulti = mysqli_query($link,$q);
+
  $result = mysqli_query($link,$q);
 if($_SESSION['ses_Id'] ==""){
 	header("Location: ../login.php");
@@ -147,25 +147,7 @@ if($_SESSION['ses_Id'] ==""){
 						</div>
 
 
-						<div class="2u 12u$(xsmall)">
-							<p>เรียน</p>
-						</div>
-						<div class="10u 12u$(xsmall)">
-							<div class="select-wrapper">
-								<select name="statusName" id="statusName">
-									<option value="">- เลือก -</option>
-									<?php
-										while ($row = mysqli_fetch_array($resulti,MYSQLI_ASSOC)) {
-											?>
-										<option value="<?php echo $row['positionName'];?>"><?php echo $row['positionName'];?></option>
-										<?php } 
-								mysqli_free_result($resulti);
-								mysqli_close($link);
-
-								?>
-								</select>
-							</div>
-						</div>
+						
 
 						<div class="2u 12u$(xsmall)">
 							<p>ไฟล์เอกสาร</p>
