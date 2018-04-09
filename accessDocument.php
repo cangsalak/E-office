@@ -1,6 +1,6 @@
 <?php
 
-
+// test commit
 include "connect.php";
 date_default_timezone_set('Asia/Bangkok');
 error_reporting(E_ALL & ~E_NOTICE);
